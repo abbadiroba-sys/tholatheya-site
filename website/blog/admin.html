@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة إدارة المدونة — الثلاثية</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <style>
+    :root{--brand:#ff4d00;--ink:#222;--bg:#f8f9fa}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Cairo",Tahoma,Arial,sans-serif;background:#f8f9fa;color:#222}
+    header{background:#fff;border-bottom:3px solid var(--brand);padding:10px 16px}
+    .container{max-width:1000px;margin:22px auto;padding:0 16px}
+    h1{margin:0;color:var(--brand)}
+    .card{background:#fff;border:1px solid #eee;border-radius:12px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.05);margin-bottom:16px}
+    label{display:block;font-weight:800;margin:10px 0 6px}
+    input[type="text"],input[type="email"],input[type="password"],textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;background:#fff;font:14px "Cairo",Tahoma}
+    textarea{min-height:120px}
+    .row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .btn{appearance:none;border:1px solid #e2e4ea;background:#fff;color:#222;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer}
+    .btn.primary{border-color:var(--brand);background:var(--brand);color:#fff}
+    .btn.danger{border-color:#d33;color:#d33;background:#fff}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .flex{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .status{padding:8px 12px;background:#fff;border:1px solid #eee;border-radius:10px}
+    .req::after{content:" *";color:#d33;font-weight:900}
+    .muted{opacity:.75;font-size:12px}
+
+    /* جدول المقالات */
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #eee;text-align:start;vertical-align:middle}
+    th{font-size:13px;color:#666;font-weight:800;white-space:nowrap}
+    td{font-size:14px}
+    .slug{font-family:monospace;background:#fafafa;border:1px solid #eee;border-radius:8px;padding:2px 6px}
+    .tag{display:inline-block;margin:2px 0 0 6px;padding:2px 8px;border:1px solid #e6e8ee;border-radius:999px;font-size:12px}
+    .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+    .toolbar input[type="search"]{flex:1;min-width:220px}
+    .empty{padding:8px 0;color:#777}
+  </style>
+</head>
+<body>
+  <header><div class="container"><h1>لوحة إدارة المدونة</h1></div></header>
+
+  <div class="container">
+    <!-- Auth -->
+    <div class="card" id="authCard">
+      <h2>تسجيل الدخول</h2>
+      <div class="row">
+        <div>
+          <label class="req">البريد الإلكتروني</label>
+          <input id="email" type="email"/>
+        </div>
+        <div>
+          <label class="req">كلمة المرور</label>
+          <input id="password" type="password"/>
+        </div>
+      </div>
+      <div class="flex" style="margin-top:12px">
+        <button class="btn primary" id="loginBtn">
+          <i class="fa-solid fa-right-to-bracket"></i> دخول
+        </button>
+        <span class="muted">Authorized users only</span>
+      </div>
+    </div>
+
+    <!-- Editor -->
+    <div class="card" id="editorCard" style="display:none">
+      <div class="flex" style="justify-content:space-between">
+        <h2>نشر/تعديل مقال</h2>
+        <div class="flex">
+          <span id="who" class="status">غير مسجّل</span>
+          <button class="btn danger" id="logoutBtn">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> خروج
+          </button>
+        </div>
+      </div>
+
+      <!-- real slug (hidden, auto) -->
+      <input id="slug" type="hidden"/>
+
+      <!-- load-only slug -->
+      <div class="row">
+        <div>
+          <label>Slug للتحميل فقط</label>
+          <input id="loadSlug" type="text" autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="req">العنوان (AR)</label>
+          <input id="title_ar" type="text" autocomplete="off"/>
+        </div>
+        <div>
+          <label class="req">Title (EN)</label>
+          <input id="title_en" type="text" autocomplete="off"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="req">الملخّص (AR)</label>
+          <textarea id="excerpt_ar"></textarea>
+        </div>
+        <div>
+          <label class="req">Excerpt (EN)</label>
+          <textarea id="excerpt_en"></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="req">المحتوى الكامل (AR)</label>
+          <textarea id="content_ar"></textarea>
+        </div>
+        <div>
+          <label class="req">Full Content (EN)</label>
+          <textarea id="content_en"></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>التصنيفات (tags)</label>
+          <div class="flex">
+            <label class="flex">
+              <input type="checkbox" class="tag" value="news"> أخبار
+            </label>
+            <label class="flex">
+              <input type="checkbox" class="tag" value="tips"> نصائح
+            </label>
+            <label class="flex">
+              <input type="checkbox" class="tag" value="projects"> مشاريع
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label>رابط صورة الغلاف (Cover URL)</label>
+          <input id="coverUrl" type="text" autocomplete="off"/>
+
+          <label style="margin-top:10px;display:block">رفع صورة الغلاف من الجهاز</label>
+          <input id="coverFile" type="file" accept="image/*"/>
+
+          <div id="coverPreviewWrap" style="margin-top:8px;display:none">
+            <img id="coverPreview" src="" alt="معاينة صورة الغلاف"
+                 style="max-width:100%;max-height:200px;border-radius:10px;border:1px solid #eee;object-fit:cover"/>
+          </div>
+          <div class="muted" style="margin-top:4px">
+            يمكنك إما لصق رابط صورة في الأعلى أو اختيار صورة من جهازك
+          </div>
+        </div>
+      </div>
+
+      <div class="flex" style="margin-top:12px">
+        <button class="btn primary" id="saveBtn">
+          <i class="fa-solid fa-floppy-disk"></i> حفظ ونشر
+        </button>
+        <button class="btn" id="loadBtn">
+          <i class="fa-regular fa-folder-open"></i> تحميل بوست موجود
+        </button>
+        <span id="msg" class="status"></span>
+      </div>
+    </div>
+
+    <!-- Posts manager (قائمة + حذف) -->
+    <div class="card" id="postsCard" style="display:none">
+      <div class="flex" style="justify-content:space-between;align-items:center">
+        <h2>قائمة المقالات</h2>
+        <div class="toolbar" style="min-width:300px">
+          <input id="search" type="search" placeholder="ابحث بالعنوان أو الـ slug…"/>
+          <button class="btn" id="refreshBtn">
+            <i class="fa-solid fa-rotate"></i> تحديث
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>العنوان</th>
+              <th>Slug</th>
+              <th>التاريخ</th>
+              <th>Tags</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="postsTbody"></tbody>
+        </table>
+      </div>
+      <div id="emptyList" class="empty" style="display:none">لا توجد مقالات.</div>
+    </div>
+
+    <footer style="text-align:center;color:#666;margin:30px 0">
+      © 2025 الثلاثية | Specialized Triple
+    </footer>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+  <script>
+    // ===== Firebase init =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtihtuZ3eq54h4q4Acmakr8mgeZJO-hRI",
+      authDomain: "tholatheya-blog.firebaseapp.com",
+      projectId: "tholatheya-blog",
+      storageBucket: "tholatheya-blog.firebasestorage.app",
+      messagingSenderId: "754772585101",
+      appId: "1:754772585101:web:cd9b8e1307456af3c450c4",
+      measurementId: "G-KGCEH7E26G"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth    = firebase.auth();
+    const db      = firebase.firestore();
+    const storage = firebase.storage();
+
+    // ===== UI refs =====
+    const authCard   = document.getElementById('authCard'),
+          editorCard = document.getElementById('editorCard'),
+          postsCard  = document.getElementById('postsCard');
+
+    const emailEl = document.getElementById('email'),
+          passEl  = document.getElementById('password');
+
+    const loginBtn  = document.getElementById('loginBtn'),
+          logoutBtn = document.getElementById('logoutBtn'),
+          who       = document.getElementById('who');
+
+    const slugEl    = document.getElementById('slug'),
+          loadSlug  = document.getElementById('loadSlug');
+
+    const title_ar   = document.getElementById('title_ar'),
+          title_en   = document.getElementById('title_en'),
+          excerpt_ar = document.getElementById('excerpt_ar'),
+          excerpt_en = document.getElementById('excerpt_en'),
+          content_ar = document.getElementById('content_ar'),
+          content_en = document.getElementById('content_en');
+
+    const tagsEls  = [...document.querySelectorAll('.tag')],
+          coverUrl = document.getElementById('coverUrl');
+
+    const coverFile        = document.getElementById('coverFile'),
+          coverPreview     = document.getElementById('coverPreview'),
+          coverPreviewWrap = document.getElementById('coverPreviewWrap');
+
+    const saveBtn = document.getElementById('saveBtn'),
+          loadBtn = document.getElementById('loadBtn'),
+          msg     = document.getElementById('msg');
+
+    // posts list UI
+    const tbody      = document.getElementById('postsTbody'),
+          emptyList  = document.getElementById('emptyList'),
+          searchEl   = document.getElementById('search'),
+          refreshBtn = document.getElementById('refreshBtn');
+
+    let POSTS_CACHE = [];
+
+    // ===== helpers =====
+    function setMsg(t, ok=true){
+      msg.textContent = t || '';
+      msg.style.borderColor = ok ? '#cde8cf' : '#f3c2c2';
+      msg.style.color       = ok ? '#1e7d1e' : '#9b2c2c';
+    }
+
+    function toSlug(s){
+      return String(s||'')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g,'')
+        .replace(/\s+/g,'-')
+        .replace(/-+/g,'-')
+        .slice(0,80);
+    }
+
+    const EN_ONLY = /[^\x00-\x7E]/g;
+    function stripEN(x){ return String(x||'').replace(EN_ONLY,''); }
+
+    function enforceEN(el){
+      const c = el.value;
+      const clean = stripEN(c);
+      if(c !== clean){
+        const s = el.selectionStart, e = el.selectionEnd;
+        el.value = clean;
+        if(typeof s === 'number' && typeof e === 'number'){
+          const d = c.length - clean.length;
+          const p = Math.max(0, s - d);
+          el.setSelectionRange(p, p);
+        }
+      }
+    }
+
+    function normAR(s){ return String(s||'').trim().replace(/\s+/g,' '); }
+    function normEN(s){ return String(s||'').trim().toLowerCase(); }
+    function isEmpty(v){ return !String(v||'').trim(); }
+
+    function fmtDate(ts){
+      try{
+        const d = ts?.toDate ? ts.toDate() : new Date(ts);
+        return d.toLocaleDateString('ar-JO',{year:'numeric',month:'short',day:'numeric'});
+      }catch{ return ''; }
+    }
+
+    // ===== auth state =====
+    auth.onAuthStateChanged(u=>{
+      if(u){
+        authCard.style.display   = 'block';
+        editorCard.style.display = 'block';
+        postsCard.style.display  = 'block';
+        authCard.style.display   = 'none';
+        who.textContent          = u.email || 'مستخدم';
+        loadPosts();
+      }else{
+        authCard.style.display   = 'block';
+        editorCard.style.display = 'none';
+        postsCard.style.display  = 'none';
+        who.textContent          = 'غير مسجّل';
+      }
+    });
+
+    loginBtn.onclick = async ()=>{
+      try{
+        await auth.signInWithEmailAndPassword(
+          emailEl.value.trim(),
+          passEl.value.trim()
+        );
+      }catch(e){
+        setMsg(e.message || 'خطأ في تسجيل الدخول', false);
+      }
+    };
+
+    logoutBtn.onclick = ()=> auth.signOut();
+
+    // EN-only + auto slug
+    ['input','paste'].forEach(evt=>{
+      title_en.addEventListener(evt,()=>{
+        enforceEN(title_en);
+        if(!slugEl.value.trim()){
+          slugEl.value = toSlug(title_en.value);
+        }
+      });
+      excerpt_en.addEventListener(evt,()=>enforceEN(excerpt_en));
+      content_en.addEventListener(evt,()=>enforceEN(content_en));
+    });
+
+    // معاينة صورة الغلاف المختارة من الجهاز
+    if(coverFile){
+      coverFile.addEventListener('change', ()=>{
+        const file = coverFile.files && coverFile.files[0];
+        if(file){
+          const url = URL.createObjectURL(file);
+          coverPreview.src = url;
+          coverPreviewWrap.style.display = 'block';
+        }else{
+          coverPreview.src = '';
+          coverPreviewWrap.style.display = 'none';
+        }
+      });
+    }
+
+    // تحميل مقال موجود (باستخدام loadSlug أو slug الحالي)
+    loadBtn.onclick = async ()=>{
+      const key = (loadSlug.value || slugEl.value || '').trim();
+      if(!key) return setMsg('أدخلي الـ slug في خانة "Slug للتحميل فقط"', false);
+      try{
+        const snap = await db.collection('posts').doc(key).get();
+        if(!snap.exists) return setMsg('لا يوجد مستند بهذا الـ slug', false);
+        const p = snap.data();
+        title_ar.value   = p.title_ar   || '';
+        title_en.value   = stripEN(p.title_en   || '');
+        excerpt_ar.value = p.excerpt_ar || '';
+        excerpt_en.value = stripEN(p.excerpt_en || '');
+        content_ar.value = p.content_ar || '';
+        content_en.value = stripEN(p.content_en || '');
+
+        tagsEls.forEach(x=> x.checked = (p.tags || []).includes(x.value));
+        coverUrl.value = p.coverUrl || '';
+
+        // معاينة لو في صورة
+        if(p.coverUrl){
+          coverPreview.src = p.coverUrl;
+          coverPreviewWrap.style.display = 'block';
+        }else{
+          coverPreview.src = '';
+          coverPreviewWrap.style.display = 'none';
+        }
+
+        // reset file
+        if(coverFile) coverFile.value = '';
+
+        slugEl.value = key;
+        setMsg('تم التحميل.');
+      }catch(e){
+        setMsg(e.message || 'فشل التحميل', false);
+      }
+    };
+
+    async function hasDuplicateTitles(enKey, arKey, currentSlug){
+      const [qEn, qAr] = await Promise.all([
+        db.collection('posts').where('title_en_key','==',enKey).limit(1).get(),
+        db.collection('posts').where('title_ar_key','==',arKey).limit(1).get()
+      ]);
+      const hitEn = !qEn.empty && qEn.docs[0].id !== currentSlug && qEn.docs[0].data()?.publishedAt;
+      const hitAr = !qAr.empty && qAr.docs[0].id !== currentSlug && qAr.docs[0].data()?.publishedAt;
+      return !!(hitEn || hitAr);
+    }
+
+    // ===== save (with optional image upload) =====
+    saveBtn.onclick = async ()=>{
+      setMsg('جارٍ الحفظ...');
+      saveBtn.disabled = true;
+      try{
+        enforceEN(title_en);
+        enforceEN(excerpt_en);
+        enforceEN(content_en);
+
+        if(isEmpty(title_en.value))   return setMsg('Title (EN) مطلوب.', false);
+        if(isEmpty(excerpt_en.value)) return setMsg('Excerpt (EN) مطلوب.', false);
+        if(isEmpty(content_en.value)) return setMsg('Full Content (EN) مطلوب.', false);
+        if(isEmpty(title_ar.value))   return setMsg('العنوان (AR) مطلوب.', false);
+        if(isEmpty(excerpt_ar.value)) return setMsg('الملخص (AR) مطلوب.', false);
+        if(isEmpty(content_ar.value)) return setMsg('المحتوى الكامل (AR) مطلوب.', false);
+
+        let key = (slugEl.value || '').trim();
+        if(!key){
+          key = toSlug(title_en.value || 'post');
+          slugEl.value = key;
+        }
+
+        const enKey = normEN(title_en.value);
+        const arKey = normAR(title_ar.value);
+
+        const dup = await hasDuplicateTitles(enKey, arKey, key);
+        if(dup) return setMsg('العنوان مستخدم مسبقًا (AR/EN).', false);
+
+        const tagVals = [...tagsEls].filter(x=>x.checked).map(x=>x.value);
+
+        // أولاً نأخذ أي رابط مكتوب يدويًا
+        let cover = (coverUrl.value || '').trim();
+
+        // لو في ملف مختار نرفعه ونستبدل الرابط به
+        if(coverFile && coverFile.files && coverFile.files[0]){
+          const file = coverFile.files[0];
+          setMsg('جارٍ رفع صورة الغلاف...');
+          const safeName = file.name.replace(/[^\w.\-]/g,'_');
+          const path = `covers/${key}-${Date.now()}-${safeName}`;
+          const refStorage = storage.ref().child(path);
+          const snapshot = await refStorage.put(file);
+          cover = await snapshot.ref.getDownloadURL();
+          coverUrl.value = cover; // نخزنه في الحقل أيضًا
+        }
+
+        const ref = db.collection('posts').doc(key);
+        const snap = await ref.get();
+        const isNew = !snap.exists;
+        const currentPublished = isNew
+          ? firebase.firestore.FieldValue.serverTimestamp()
+          : (snap.data().publishedAt || firebase.firestore.FieldValue.serverTimestamp());
+
+        const doc = {
+          slug: key,
+          title_ar:   String(title_ar.value   || '').trim(),
+          title_en:   String(title_en.value   || '').trim(),
+          title_en_key: enKey,
+          title_ar_key: arKey,
+          excerpt_ar: String(excerpt_ar.value || '').trim(),
+          excerpt_en: String(excerpt_en.value || '').trim(),
+          content_ar: String(content_ar.value || '').trim(),
+          content_en: String(content_en.value || '').trim(),
+          tags: tagVals,
+          coverUrl: cover,
+          publishedAt: currentPublished,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await ref.set(doc, {merge:true});
+        setMsg('تم الحفظ والنشر بنجاح ✅');
+        await loadPosts();
+
+      }catch(e){
+        setMsg(e.message || 'فشل الحفظ', false);
+      }finally{
+        saveBtn.disabled = false;
+      }
+    };
+
+    // ===== load posts list =====
+    async function loadPosts(){
+      tbody.innerHTML = '';
+      emptyList.style.display = 'none';
+      POSTS_CACHE = [];
+      try{
+        const snap = await db.collection('posts').orderBy('publishedAt','desc').get();
+        POSTS_CACHE = snap.docs.map(d=>({id:d.id, ...d.data()}));
+        renderPostsList();
+      }catch(e){
+        tbody.innerHTML = '';
+        emptyList.style.display = 'block';
+      }
+    }
+
+    function renderPostsList(){
+      const q = String(searchEl.value || '').trim().toLowerCase();
+      const list = POSTS_CACHE.filter(p=>{
+        const tAr  = (p.title_ar || '').toLowerCase();
+        const tEn  = (p.title_en || '').toLowerCase();
+        const slug = (p.slug || p.id || '').toLowerCase();
+        return !q || tAr.includes(q) || tEn.includes(q) || slug.includes(q);
+      });
+
+      tbody.innerHTML = '';
+      if(!list.length){
+        emptyList.style.display = 'block';
+        return;
+      }
+      emptyList.style.display = 'none';
+
+      list.forEach(p=>{
+        const tr = document.createElement('tr');
+
+        const tdTitle = document.createElement('td');
+        tdTitle.textContent = p.title_ar || p.title_en || '(بدون عنوان)';
+
+        const tdSlug = document.createElement('td');
+        tdSlug.innerHTML = `<span class="slug">${p.slug || p.id}</span>`;
+
+        const tdDate = document.createElement('td');
+        tdDate.textContent = fmtDate(p.publishedAt);
+
+        const tdTags = document.createElement('td');
+        (p.tags || []).forEach(t=>{
+          const span = document.createElement('span');
+          span.className = 'tag';
+          span.textContent = t;
+          tdTags.appendChild(span);
+        });
+
+        const tdAct = document.createElement('td');
+        const btnLoad = document.createElement('button');
+        btnLoad.className = 'btn';
+        btnLoad.innerHTML = '<i class="fa-regular fa-folder-open"></i> تحميل';
+        btnLoad.onclick = ()=>{
+          loadSlug.value = (p.slug || p.id || '');
+          loadBtn.click();
+          window.scrollTo({top:0, behavior:"smooth"});
+        };
+
+        const btnDel = document.createElement('button');
+        btnDel.className = 'btn danger';
+        btnDel.innerHTML = '<i class="fa-solid fa-trash-can"></i> حذف';
+        btnDel.onclick = ()=>handleDelete(p.slug || p.id, btnDel);
+
+        tdAct.appendChild(btnLoad);
+        tdAct.appendChild(btnDel);
+
+        tr.appendChild(tdTitle);
+        tr.appendChild(tdSlug);
+        tr.appendChild(tdDate);
+        tr.appendChild(tdTags);
+        tr.appendChild(tdAct);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function handleDelete(slug, btn){
+      if(!slug) return;
+      const ok = confirm(`هل أنت متأكد من حذف المقال؟\nSlug: ${slug}\nلا يمكن التراجع عن هذه العملية.`);
+      if(!ok) return;
+      const oldTxt = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> جارٍ الحذف...';
+      try{
+        await db.collection('posts').doc(slug).delete();
+        setMsg('تم حذف المقال 🗑️');
+        POSTS_CACHE = POSTS_CACHE.filter(p => (p.slug || p.id) !== slug);
+        renderPostsList();
+        if((slugEl.value || '') === slug){
+          clearEditorFields();
+        }
+      }catch(e){
+        setMsg(e.message || 'فشل الحذف', false);
+      }finally{
+        btn.disabled = false;
+        btn.innerHTML = oldTxt;
+      }
+    }
+
+    function clearEditorFields(){
+      slugEl.value   = '';
+      loadSlug.value = '';
+      title_ar.value   = '';
+      title_en.value   = '';
+      excerpt_ar.value = '';
+      excerpt_en.value = '';
+      content_ar.value = '';
+      content_en.value = '';
+      tagsEls.forEach(x=>x.checked=false);
+      coverUrl.value = '';
+      if(coverFile) coverFile.value = '';
+      if(coverPreview){
+        coverPreview.src = '';
+        coverPreviewWrap.style.display = 'none';
+      }
+    }
+
+    // search + refresh
+    searchEl.addEventListener('input', renderPostsList);
+    refreshBtn.addEventListener('click', loadPosts);
+  </script>
+</body>
+</html>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="docTitle" data-ar="مقال - الثلاثية" data-en="Post - Specialized Triple">مقال - الثلاثية</title>
+
+  <!-- تهيئة مبكرة للّغة -->
+  <script>
+    (function(){
+      var urlLang=new URLSearchParams(location.search).get('lang');
+      var saved=null;try{saved=localStorage.getItem('lang')}catch(e){}
+      var lang=urlLang||saved||'ar';
+      document.documentElement.setAttribute('lang',lang);
+      document.documentElement.setAttribute('dir','rtl'); /* اتجاه ثابت */
+    })();
+  </script>
+
+  <!-- Icons / Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --brand:#ff4d00; --brand-2:#ff6a00; --ink:#333; --bg:#f8f9fa; --primary:#004aad; --radius:12px;
+      --container:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:"Cairo",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums;overflow-x:hidden}
+
+    /* ===== Top bar ===== */
+    .top-bar{
+      background:var(--brand-2);color:#fff;font-size:14px;padding:6px 15px;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap; position:relative;
+    }
+    .welcome-text{font-weight:600}
+    .social-lang{display:flex;align-items:center;gap:10px}
+    .social-lang a{color:#fff;font-size:16px;text-decoration:none;line-height:1}
+
+    /* WhatsApp panel + عكس اتجاه الفتح على الموبايل */
+    .wa-wrap{position:relative}
+    .wa-btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      background:#0dbb4e;color:#fff;border:none;border-radius:999px;
+      width:40px;height:40px;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.15);padding:0;
+    }
+    .wa-btn span{display:none}
+    .wa-panel{
+      position:absolute; inset-inline-end:0; inset-block-start:44px;
+      background:#10243a; color:#e6f0ff; border:1px solid #274766; border-radius:14px;
+      box-shadow:0 18px 40px rgba(0,0,0,.28); min-width:280px; display:none; z-index:20; overflow:hidden;
+    }
+    .wa-panel.open{display:block}
+    .wa-sec{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .wa-sec:last-child{border-bottom:0}
+    .wa-title{font-weight:900; font-size:13px; color:#b4d5ff; margin:0 0 6px}
+    .wa-row{display:flex; align-items:center; justify-content:space-between; gap:8px;
+      background:#0b1d33; border:1px solid #1f3b5a; border-radius:10px; padding:8px 10px}
+    .wa-row a{color:#8bd6ff; text-decoration:none; font-weight:800}
+    .wa-row .tel{direction:ltr; unicode-bidi:bidi-override; color:#e6f0ff}
+
+    @media (max-width:640px){
+      .wa-panel{ inset-inline-start:0; inset-inline-end:auto; } /* تفتح بالعكس */
+    }
+
+    /* Language switch */
+    .lang-switch{display:inline-flex;align-items:center;gap:0}
+    .lang-link{color:#fff;text-decoration:none;font-weight:800;font-size:12px;padding:1px 3px;cursor:pointer}
+    .lang-link.active{border-bottom:2px solid #fff}
+    .lang-sep{display:inline-block;width:1px;height:12px;background:rgba(255,255,255,.85);margin:0 8px}
+
+    /* ===== Header/Nav ===== */
+    header{background:#fff;border-bottom:3px solid var(--brand);position:sticky;top:0;z-index:10}
+    .header-inner{max-width:var(--container);margin:0 auto;padding:10px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:clamp(10px,2vw,22px)}
+    .brand-area{display:flex;align-items:center;gap:14px}
+    .logo{height:90px;width:auto;object-fit:contain;display:block}
+    @media (max-width:720px){.logo{height:70px}}
+    .logo-wrap{display:inline-block;line-height:0}
+
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:clamp(10px,2.5vw,26px);align-items:center}
+    nav a{text-decoration:none;color:var(--ink);font-weight:700;padding:8px 10px;border-radius:8px}
+    nav a:hover{background:#f2f2f2}
+
+    /* ===== محتوى المقال ===== */
+    .container{max-width:980px;margin:22px auto;padding:0 16px}
+    .breadcrumbs{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px}
+    a.btn{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:10px;text-decoration:none;border:1px solid #e6e8ee;background:#fff;color:#222;font-weight:800}
+    a.btn:hover{border-color:var(--brand);color:var(--brand)}
+    .title{margin:14px 0 6px;font-size:28px;color:#111}
+    .meta{display:flex;gap:10px;align-items:center;opacity:.75}
+    .cover{margin:14px 0;border-radius:12px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+    .cover img{width:100%;height:auto;display:block}
+    .content{background:#fff;border:1px solid #eee;border-radius:12px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.05);line-height:2}
+    .content p{margin:0 0 14px}
+    footer{background:var(--primary);color:#fff;padding:16px 20px;text-align:center;border-top:3px solid var(--brand);margin-top:30px}
+
+    /* ===== Mobile tuning ===== */
+    @media (max-width: 640px){
+      .top-bar{ display:grid; grid-template-columns:1fr auto; gap:6px; padding:6px 10px; font-size:13px; }
+      .welcome-text{ grid-column:1 / -1; white-space:normal; display:block; line-height:1.6; }
+      .social-lang{ display:flex !important; align-items:center !important; justify-content:flex-start !important; gap:8px !important; flex-wrap:nowrap !important; }
+      .lang-switch{ margin-inline-start:auto !important; }
+      .header-inner{ gap:8px; padding:8px 12px; flex-wrap:nowrap; }
+      header nav{ flex:1; min-width:0; }
+      header nav ul{
+        display:flex !important; flex-wrap: wrap !important; overflow: visible !important; white-space: normal !important;
+        gap:6px !important; padding-block:2px !important; margin:0 !important;
+      }
+      header nav a{ padding:5px 7px !important; font-size:12px !important; border-radius:8px !important; line-height:1.2 !important; }
+      .logo{ height:56px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Top bar ===== -->
+  <div class="top-bar">
+    <div class="welcome-text"
+         data-ar="مرحباً بكم في <strong>مدونة الثلاثية</strong> – قراءة مقال"
+         data-en="Welcome to the <strong>Specialized Triple Blog</strong> — Reading a post">
+      مرحباً بكم في <strong>مدونة الثلاثية</strong> – قراءة مقال
+    </div>
+
+    <div class="social-lang">
+      <a href="https://www.instagram.com/tholatheya?igsh=bnp0Nzh4a2tiY29i" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+
+      <div class="wa-wrap">
+        <button class="wa-btn" id="waBtn" aria-haspopup="true" aria-expanded="false" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i><span data-ar="واتساب" data-en="WhatsApp">واتساب</span>
+        </button>
+        <div class="wa-panel" id="waPanel" role="menu" aria-label="WhatsApp numbers">
+          <div class="wa-sec">
+            <div class="wa-title" data-ar="استعلامات" data-en="Inquiries">استعلامات</div>
+            <div class="wa-row">
+              <a href="https://wa.me/962793383398" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+              <a class="tel" href="tel:+962793383398">+962 793383398</a>
+            </div>
+          </div>
+          <div class="wa-sec">
+            <div class="wa-title" data-ar="مبيعات" data-en="Sales">مبيعات</div>
+            <div class="wa-row">
+              <a href="https://wa.me/962797664441" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+              <a class="tel" href="tel:+962797664441">+962 797664441</a>
+            </div>
+          </div>
+          <div class="wa-sec">
+            <div class="wa-title" data-ar="الإدارة" data-en="Administration">الإدارة</div>
+            <div class="wa-row">
+              <a href="https://wa.me/962799104601" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+              <a class="tel" href="tel:+962799104601">+962 799104601</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://www.linkedin.com/company/109431975/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+
+      <div class="lang-switch" aria-label="Language switcher">
+        <a href="#" class="lang-link" id="link-en">EN</a>
+        <span class="lang-sep" aria-hidden="true"></span>
+        <a href="#" class="lang-link" id="link-ar">AR</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Header / Nav ===== -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-area">
+        <a id="homeLink" href="../index.html" aria-label="Back to home" class="logo-wrap">
+          <img class="logo" src="../logo.png" alt="شعار الشركة / Company Logo">
+        </a>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="../index.html#home"        data-ar="الصفحة الرئيسية" data-en="Home">الصفحة الرئيسية</a></li>
+          <li><a href="../about.html"             data-ar="من نحن"          data-en="About">من نحن</a></li>
+          <li><a href="../index.html#categories"  data-ar="الفئات"          data-en="Categories">الفئات</a></li>
+          <li><a href="../index.html#brands"      data-ar="العلامات"        data-en="Brands">العلامات</a></li>
+          <li><a href="../index.html#locations"   data-ar="المواقع"         data-en="Locations">المواقع</a></li>
+          <li><a href="./index.html"              data-ar="المدونة"         data-en="Blog">المدونة</a></li>
+          <li><a href="../index.html#contact"     data-ar="تواصل"           data-en="Contact">تواصل</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <div class="breadcrumbs">
+      <a id="backBtn" class="btn" href="index.html"><i class="fa-solid fa-arrow-right"></i>
+        <span data-ar="عودة للمدونة" data-en="Back to Blog">عودة للمدونة</span>
+      </a>
+      <span></span>
+    </div>
+
+    <h1 class="title" id="title">...</h1>
+    <div class="meta">
+      <i class="fa-regular fa-calendar"></i>
+      <span id="date"></span>
+    </div>
+    <div class="cover" id="cover" style="display:none"></div>
+    <article class="content" id="content">...</article>
+  </main>
+
+  <footer>
+    <p data-ar="© 2025 الثلاثية | Specialized Triple" data-en="© 2025 Specialized Triple">© 2025 الثلاثية | Specialized Triple</p>
+  </footer>
+
+  <!-- Firebase (read-only) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    let activeLang='ar';
+
+    function setTitleByLang(lang){
+      const tEl=document.getElementById('docTitle');
+      if(!tEl) return;
+      const ar=tEl.getAttribute('data-ar')||'مقال - الثلاثية';
+      const en=tEl.getAttribute('data-en')||'Post - Specialized Triple';
+      tEl.textContent=(lang==='ar')?ar:en;
+    }
+
+    function rewriteInternalLinks(lang){
+      document.querySelectorAll('a[href]').forEach(a=>{
+        const href=a.getAttribute('href'); if(!href) return;
+        if(href.startsWith('#') || /^(https?:|mailto:|tel:|javascript:)/i.test(href)) return;
+        const url=new URL(href,location.href);
+        url.searchParams.set('lang',lang);
+        a.setAttribute('href',url.pathname+url.search+url.hash);
+      });
+    }
+
+    function setLang(lang){
+      activeLang=lang;
+      document.documentElement.setAttribute('lang',lang);
+      document.documentElement.setAttribute('dir','rtl'); /* ثابت */
+      try{localStorage.setItem('lang',lang)}catch(e){}
+      setTitleByLang(lang);
+
+      document.querySelectorAll('[data-ar]').forEach(el=>{
+        const v=(lang==='ar')?el.getAttribute('data-ar'):el.getAttribute('data-en');
+        if(v!=null) el.innerHTML=v;
+      });
+
+      const linkAr=document.getElementById('link-ar');
+      const linkEn=document.getElementById('link-en');
+      if(linkAr&&linkEn){ linkAr.classList.toggle('active',lang==='ar'); linkEn.classList.toggle('active',lang==='en'); }
+
+      const back=document.getElementById('backBtn');
+      if(back){
+        const u=new URL(back.getAttribute('href'),location.href);
+        u.searchParams.set('lang',lang);
+        back.setAttribute('href',u.pathname+u.search+u.hash);
+      }
+
+      rewriteInternalLinks(lang);
+
+      if (window.__CB_LANG_UPDATE__) window.__CB_LANG_UPDATE__(lang);
+
+      render();
+    }
+
+    function syncHomeLink(initial){
+      const home=document.getElementById('homeLink');
+      if(home){
+        const u=new URL(home.getAttribute('href'),location.href);
+        u.searchParams.set('lang',initial);
+        home.setAttribute('href',u.pathname+u.search+u.hash);
+      }
+    }
+
+    /* WhatsApp dropdown */
+    function initWhatsAppPanel(){
+      const btn=document.getElementById('waBtn');
+      const panel=document.getElementById('waPanel');
+      if(!btn||!panel) return;
+      btn.addEventListener('click', ()=>{
+        const open=panel.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open?'true':'false');
+      });
+      document.addEventListener('click', (e)=>{
+        const inside=e.target.closest('#waPanel')||e.target.closest('#waBtn');
+        if(!inside) panel.classList.remove('open');
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded',()=>{
+      const linkAr=document.getElementById('link-ar');
+      const linkEn=document.getElementById('link-en');
+      if(linkAr) linkAr.addEventListener('click',e=>{e.preventDefault();setLang('ar')});
+      if(linkEn) linkEn.addEventListener('click',e=>{e.preventDefault();setLang('en')});
+
+      const urlLang=new URLSearchParams(location.search).get('lang');
+      const saved=(()=>{try{return localStorage.getItem('lang')}catch(e){return null}})();
+      const initial=urlLang||saved||'ar';
+      syncHomeLink(initial);
+      setLang(initial);
+
+      initWhatsAppPanel();
+    });
+
+    /* ========== Firebase (read-only) ========== */
+    const firebaseConfig={
+      apiKey:"AIzaSyBtihtuZ3eq54h4q4Acmakr8mgeZJO-hRI",
+      authDomain:"tholatheya-blog.firebaseapp.com",
+      projectId:"tholatheya-blog",
+      storageBucket:"tholatheya-blog.firebasestorage.app",
+      messagingSenderId:"754772585101",
+      appId:"1:754772585101:web:cd9b8e1307456af3c450c4",
+      measurementId:"G-KGCEH7E26G"
+    };
+    let db=null;
+    try{
+      if(firebaseConfig.apiKey&&firebaseConfig.apiKey!=="PASTE_YOUR_API_KEY"){
+        firebase.initializeApp(firebaseConfig);
+        db=firebase.firestore();
+      }
+    }catch(e){db=null;}
+
+    const state={post:null};
+
+    function getSlug(){
+      const u=new URL(location.href);
+      return u.searchParams.get('slug')||'';
+    }
+    function fDate(ts){
+      try{
+        const d=ts?.toDate?ts.toDate():new Date(ts);
+        const opts={year:'numeric',month:'short',day:'numeric'};
+        return new Intl.DateTimeFormat(activeLang==='ar'?'ar-JO':'en-US',opts).format(d);
+      }catch{return '';}
+    }
+
+    async function fetchPost(){
+      const slug=getSlug();
+      if(!db||!slug){ state.post=null; render(); return; }
+      try{
+        const snap=await db.collection('posts').doc(slug).get();
+        state.post=snap.exists?snap.data():null;
+      }catch(e){ state.post=null; }
+      render();
+    }
+
+    function render(){
+      const p=state.post;
+      const titleEl=document.getElementById('title');
+      const dateEl=document.getElementById('date');
+      const coverEl=document.getElementById('cover');
+      const contEl=document.getElementById('content');
+
+      if(!p){
+        titleEl.textContent=(activeLang==='ar')?'المقال غير موجود':'Post not found';
+        dateEl.textContent='';
+        coverEl.style.display='none';
+        contEl.innerHTML=(activeLang==='ar')?'عذرًا، لم نعثر على هذا المقال.':'Sorry, we couldn’t find this post.';
+        return;
+      }
+
+      const title=(activeLang==='ar'?p.title_ar:p.title_en)||(p.title_ar||p.title_en||'');
+      const ex   =(activeLang==='ar'?p.excerpt_ar:p.excerpt_en)||'';
+      const full =(activeLang==='ar'?p.content_ar:p.content_en)||'';
+
+      titleEl.textContent=title;
+      dateEl.textContent=fDate(p.publishedAt);
+
+      if(p.coverUrl){
+        coverEl.style.display='block';
+        coverEl.innerHTML=`<img src="${p.coverUrl}" alt="">`;
+      }else{
+        coverEl.style.display='none';
+        coverEl.innerHTML='';
+      }
+
+      if(full){ contEl.innerHTML=full; }
+      else if(ex){ contEl.innerHTML=`<p>${ex}</p>`; }
+      else{ contEl.innerHTML=(activeLang==='ar')?'<p>لا يوجد محتوى.</p>':'<p>No content.</p>'; }
+    }
+
+    fetchPost();
+  </script>
+
+  <!-- ===== ChatBot Widget ===== -->
+  <style>
+    :root{ --cb-brand: var(--brand, #ff4d00); --cb-primary: var(--primary, #004aad); --cb-ink: var(--ink, #333); }
+    .cb-fab{ position: fixed; inset-inline-end: 18px; bottom: 18px; z-index: 9999; }
+    .cb-fab button{
+      background: var(--cb-brand); color:#fff; border:none; border-radius:999px;
+      padding:12px 16px; font-weight:900; display:flex; gap:10px; align-items:center;
+      box-shadow:0 12px 28px rgba(0,0,0,.22); cursor:pointer;
+    }
+    .cb-panel{
+      position: fixed; inset-inline-end: 18px; bottom: 78px; width: min(380px, 92vw);
+      background:#fff; border:1px solid #e6ebf2; border-radius:16px; overflow:hidden;
+      box-shadow:0 18px 40px rgba(0,0,0,.18); display:none; z-index: 9999; direction: rtl;
+      height: min(520px, 75vh);
+    }
+    .cb-panel.open{ display: grid; grid-template-rows: auto 1fr auto auto; }
+    .cb-head{ background: linear-gradient(90deg, rgba(0,74,173,.10), rgba(0,74,173,.06));
+      border-bottom:1px solid #dfe7f5; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .cb-head .title{font-weight:900; color:#0f172a; display:flex; align-items:center; gap:8px}
+    .cb-head .title i{color: var(--cb-primary)}
+    .cb-head .right-actions{ display:flex; align-items:center; gap:8px }
+    .cb-head .ghost{ background:#fff; color:#0f172a; border:1px solid #e6ebf2; border-radius:999px; padding:6px 10px; font-weight:800; cursor:pointer; font-size:12px; }
+    .cb-body{ background:#f8fafc; overflow:auto; padding:12px; display:flex; flex-direction:column; gap:10px }
+    .cb-msg{ display:flex; gap:8px; align-items:flex-end }
+    .cb-msg.me{ justify-content:flex-start; }
+    .cb-msg.bot{ justify-content:flex-end; }
+    .cb-bubble{ padding:10px 12px; border-radius:14px; max-width:80%; line-height:1.8; font-size:14px; box-shadow:0 2px 6px rgba(0,0,0,.07); }
+    .cb-msg.me  .cb-bubble{ background:#fff; border:1px solid #e6ebf2; color:#0f172a }
+    .cb-msg.bot .cb-bubble{ background: var(--cb-brand); color:#fff; border:1px solid rgba(0,0,0,.06) }
+
+    /* شريط المقترحات – سكني غامق مع سكروول واضح */
+    .cb-suggests-wrap{
+      border-top:1px solid #1f2937;
+      background:#1f2937;
+      padding:8px 0;
+      display:grid;
+      grid-template-rows:auto;
+    }
+    .cb-suggests{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      overflow-x:auto;
+      overflow-y:hidden;
+      white-space:nowrap;
+      padding:0 10px 6px;
+      scroll-snap-type:x proximity;
+    }
+    .cb-suggests::-webkit-scrollbar{ height:8px }
+    .cb-suggests::-webkit-scrollbar-thumb{
+      background:#4b5563;
+      border-radius:999px;
+    }
+    .cb-chip{
+      border:1px solid #4b5563;
+      background:#374151;
+      color:#f9fafb;
+      padding:7px 12px;
+      border-radius:999px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:12px;
+      flex:0 0 auto;
+      display:inline-block;
+      scroll-snap-align:center;
+    }
+
+    .cb-mini-note{ font-size:11px; color:#64748b; padding:0 12px 10px; background:#fff; border-top:1px solid #edf1f6 }
+    .cb-foot{ display:flex; gap:8px; padding:10px; border-top:1px solid #edf1f6; background:#fff }
+    .cb-input{ flex:1; border:1px solid #dfe7f5; border-radius:999px; padding:10px 12px; font:14px "Cairo", Tahoma; background:#fff }
+    .cb-send{ background: var(--cb-primary); color:#fff; border:none; border-radius:999px; padding:10px 14px; font-weight:900; cursor:pointer }
+  </style>
+
+  <div class="cb-fab">
+    <button id="cbFab" aria-controls="cbPanel" aria-expanded="false"><i class="fa-solid fa-robot"></i><span id="cbFabTxt">اسأل الثلاثية</span></button>
+  </div>
+
+  <div class="cb-panel" id="cbPanel" aria-live="polite">
+    <div class="cb-head">
+      <div class="title"><i class="fa-solid fa-robot"></i><span id="cbTitle">مساعد الثلاثية</span></div>
+      <div class="right-actions">
+        <button id="cbClose" type="button" title="إغلاق" class="ghost">إغلاق</button>
+      </div>
+    </div>
+
+    <div class="cb-body" id="cbBody"></div>
+    <div class="cb-suggests-wrap" id="cbSugWrap"><div class="cb-suggests" id="cbSuggests"></div></div>
+    <div class="cb-mini-note" id="cbMiniNote">اسأل عن المنتجات، المواقع، الدوام، أو الشحن من الصين ✨</div>
+    <div class="cb-foot">
+      <input id="cbInput" class="cb-input" type="text" placeholder="اكتب سؤالك..." />
+      <button id="cbSend" class="cb-send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      if (window.__CB_INITED__) return;
+      window.__CB_INITED__ = true;
+
+      const USE_GEMINI = false;
+      const GEMINI_ENDPOINT = '/chat';
+
+      const $ = sel => document.querySelector(sel);
+      const body   = $('#cbBody');
+      const panel  = $('#cbPanel');
+      const input  = $('#cbInput');
+      const sendBt = $('#cbSend');
+      const fabBt  = $('#cbFab');
+      const fabTxt = $('#cbFabTxt');
+      const closeBt= $('#cbClose');
+
+      const sug    = $('#cbSuggests');
+      const titleEl= $('#cbTitle');
+      const mini   = $('#cbMiniNote');
+
+      const STR = {
+        ar: {
+          fab: 'اسأل الثلاثية',
+          title: 'مساعد الثلاثية',
+          close: 'إغلاق',
+          placeholder: 'اكتب سؤالك...',
+          mini: 'اسأل عن المنتجات، المواقع، الدوام، أو الشحن من الصين ✨',
+          greet: 'أهلًا! أنا مساعد الثلاثية. كيف أقدر أساعدك؟ 🤖',
+          suggests: [
+            'شو خدماتكم الرئيسية؟','وين موقع المكتب الرئيسي؟','متى ساعات الدوام؟','هل بتجهزوا كرفانات؟',
+            'بدي عرض سعر لمواد كهربائية','عندكم شحن من الصين؟','هل توصّلون لكل المحافظات؟',
+            'ما طرق الدفع المتاحة؟','هل في حد أدنى للطلب؟','هل في ضمان على المنتجات؟',
+            'ممكن كتالوج أو قائمة العلامات؟','كيف أرسل طلب شراء أو مواصفات؟'
+          ]
+        },
+        en: {
+          fab: 'Ask Tholatheya',
+          title: 'Tholatheya Assistant',
+          close: 'Close',
+          placeholder: 'Type your question…',
+          mini: 'Ask about products, locations, hours, or shipping from China ✨',
+          greet: 'Hi! I’m the Tholatheya assistant. How can I help? 🤖',
+          suggests: [
+            'What are your main services?','Where is the head office?','What are your working hours?','Do you build caravans?',
+            'I need a quote for electrical items','Do you ship from China?','Do you deliver across Jordan?',
+            'What payment methods do you accept?','Is there a minimum order?','Is there product warranty?',
+            'Can I get a brands catalog?','How do I send an RFQ/specs?'
+          ]
+        }
+      };
+
+      const k = (lang) => ({
+        TRANSCRIPT: 'cbTranscriptHTML_'+lang,
+        OPEN:       'cbIsOpen',
+        GREET:      'cbGreetedOnce_'+lang
+      });
+
+      function saveTranscript(lang){ try{ localStorage.setItem(k(lang).TRANSCRIPT, body.innerHTML); }catch(e){} }
+      function restoreTranscript(lang){
+        let html=null; try{ html=localStorage.getItem(k(lang).TRANSCRIPT); }catch(e){}
+        if(html && html.trim()){ body.innerHTML=html; body.scrollTop=body.scrollHeight; return true; }
+        return false;
+      }
+      function setPanelOpen(v){
+        panel.classList.toggle('open', !!v);
+        try{ localStorage.setItem(k(activeLang).OPEN, v ? '1' : '0'); }catch(e){}
+        setFabExpanded(!!v);
+      }
+
+      function appendMsg(html, who='me'){
+        const row=document.createElement('div');
+        row.className='cb-msg ' + (who==='bot' ? 'bot' : 'me');
+        const b=document.createElement('div');
+        b.className='cb-bubble';
+        b.innerHTML=html;
+        row.appendChild(b);
+        body.appendChild(row);
+        body.scrollTop=body.scrollHeight;
+        saveTranscript(activeLang);
+      }
+
+      function botReplyLocal(userText){
+        const t=(userText||'').trim();
+        const normalized=t.replace(/[^\u0621-\u064Aa-z0-9 ]/gi,'').toLowerCase();
+        const reply=(ar,en)=> appendMsg(activeLang==='ar'?ar:en,'bot');
+
+        // تحيات بسيطة
+        if(/مرحبا|مرحبه|اهلا|أهلا|اهلاً|السلام عليكم|هاي|هلا|hi|hello|hey|good morning|good evening/.test(normalized)){
+          return reply(
+            'أهلاً وسهلاً 🤍 كيفك اليوم؟',
+            'Hello! 😊 How are you today?'
+          );
+        }
+        if(/الحمد لله|الحمدلله|بخير|تمام|كويس|منيح/.test(normalized) && /(وانت|وانت كيفك|انت كيفك)/.test(normalized)){
+          return reply(
+            'تمام الحمد لله 😄 يسعدني إنك بخير. كيف أقدر أساعدك اليوم؟',
+            'I’m good, thanks! 😄 Glad you’re fine. How can I help you today?'
+          );
+        }
+        if(/الحمد لله|الحمدلله|بخير|تمام|كويس|منيح/.test(normalized)){
+          return reply(
+            'يسعدني إنك بخير 😄 كيف أقدر أساعدك اليوم؟',
+            'Glad to hear you’re fine 😄 How can I help you today?'
+          );
+        }
+
+        if(/من انتم|عن الشركة|شو بتعملو|what do you do|services|خدماتكم|رؤيتكم/.test(normalized)){
+          return reply(
+            `<div><strong>الثلاثية المتخصصة</strong> شركة أردنية لتجهيز المنشآت والمحلات.</div>
+             <div>نوفّر مشتريات، لوجستيات، وتجهيزات خفيفة مع تسليم أسرع وتكلفة أقل.</div>
+             <div>قطاعاتنا: حكومي/منظمات، صناعي/تجاري، تعليمي/طبي، ضيافة ومخيمات.</div>`,
+            `<div><strong>Tholatheya</strong> is a Jordanian company for facility & shop preparation</div>
+             <div>We provide procurement, logistics, and light fit-out with faster delivery and lower cost</div>
+             <div>Sectors: Government/NGOs, Industrial/Commercial, Education/Medical, Hospitality & Camps</div>`
+          );
+        }
+        if(/موقع|وين|الخريطة|hq|office|address|وينكم/.test(normalized)){
+          return reply(
+            `<div><strong>المكتب الرئيسي (خلدا):</strong></div>
+             <div>مكتب #209، الطابق الثاني، مبنى 224، مجمع القدس سنتر، شارع وصفي التل، عمّان</div>
+             <div><a target="_blank" href="https://maps.app.goo.gl/zppFTuJPjYwRm9pW8">افتح على الخريطة</a></div>`,
+            `<div><strong>Head Office (Khalda):</strong></div>
+             <div>Office #209, 2nd Floor, Building 224, Al Quds Complex, Wasfi Al-Tal St, Amman</div>
+             <div><a target="_blank" href="https://maps.app.goo.gl/zppFTuJPjYwRm9pW8">Open in Maps</a></div>`
+          );
+        }
+        if(/دوام|ساعات|متى|فتح|اغلاق|opening|hours|مفتوح/.test(normalized)){
+          return reply(
+            `<div><strong>الدوام:</strong></div>
+             <div>السبت – الأربعاء: 8:30 ص – 5:00 م</div>
+             <div>الخميس: 8:30 ص – 3:30 م</div>
+             <div>الجمعة: مغلق</div>`,
+            `<div><strong>Working hours:</strong></div>
+             <div>Sat–Wed: 8:30 AM – 5:00 PM</div>
+             <div>Thu: 8:30 AM – 3:30 PM</div>
+             <div>Fri: Closed</div>`
+          );
+        }
+        if(/رقم|هاتف|تواصل|اتصال|واتس|whatsapp|sales|استعلام/.test(normalized)){
+          return reply(
+            `<div><strong>أرقام التواصل:</strong></div>
+             <div>استعلامات: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a></div>
+             <div>مبيعات: <a href="tel:+962797664441">+962 797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a></div>
+             <div>الإدارة: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a></div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>`,
+            `<div><strong>Contacts:</strong></div>
+             <div>Inquiries: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a></div>
+             <div>Sales: <a href="tel:+962797664441">+962797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a></div>
+             <div>Administration: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a></div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>`
+          );
+        }
+        if(/عرض سعر|quotation|offer|ارسل عرض|طلب شراء|rfq|specs|مواصفات/.test(normalized)){
+          return reply(
+            `<div>أرسل المواصفات أو قائمة المواد إلى:</div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>
+             <div>أو تواصل مع <a target="_blank" href="https://wa.me/962797664441">واتساب المبيعات</a> لنرد سريعًا.</div>`,
+            `<div>Please email your specs or bill of materials to:</div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>
+             <div>Or contact <a target="_blank" href="https://wa.me/962797664441">Sales on WhatsApp</a> for a quick reply</div>`
+          );
+        }
+        if(/كرفان|كرفانات|caravan|fabrication|fitout/.test(normalized)){
+          return reply(
+            `<div>نعم، نقدّم <strong>تصنيع وتجهيز الكرفانات</strong> حسب الطلب (عزل، كهرباء، سباكة، تشطيب).</div>
+             <div>ابعث المواصفات وسنجهّز لك عرضًا مناسبًا.</div>`,
+            `<div>Yes, we offer <strong>caravan fabrication & fit-out</strong> (insulation, electrical, plumbing, finishing)</div>
+             <div>Send your specs and we’ll prepare a tailored quote</div>`
+          );
+        
+        }
+        if(/الصين|غوانزو|يي وو|yiwu|guangzhou|توريد|sourcing|شحن/.test(normalized)){
+          return reply(
+            `<div>لدينا مكاتب فعّالة في الصين:</div>
+             <div>📍 غوانزو (Guangzhou) & 📍 ييوو (Yiwu)</div>
+             <div>نوفّر توريدًا مباشرًا وفحص جودة وشحنًا ميسّرًا للأردن.</div>`,
+            `<div>We have active offices in China:</div>
+             <div>📍 Guangzhou & 📍 Yiwu</div>
+             <div>We provide direct sourcing, QC, and streamlined shipping to Jordan</div>`
+          );
+        }
+        if(/مواد|ادوات|سباكة|كهرباء|سلامة|انارة|دهان|مكتبية|it|زراعة|قياس|بناء/.test(normalized)){
+          return reply(
+            `<div>نوفّر توريد مواد متنوّعة: كهربائيات وإنارة، سباكة، دهانات، أدوات قياس، IT، سلامة، تنظيف، زراعة، مواد بناء…</div>
+             <div>ابعث قائمة بالاحتياج لنوفّر البدائل والأسعار.</div>`,
+            `<div>We supply a wide range: electrical & lighting, plumbing, paints, measuring tools, IT, safety/PPE, cleaning, agriculture, building materials…</div>
+             <div>Send your list and we’ll propose options & pricing</div>`
+          );
+        }
+        if(/طرق الدفع|الدفع|payment|visa|master|تحويل|كاش/.test(normalized)){
+          return reply(
+            `<div>طرق الدفع المتاحة:</div>
+             <div>• <strong>نقدًا</strong> أو <strong>تحويل بنكي</strong> داخل الأردن.</div>
+             <div>• خيارات أخرى بحسب قيمة الطلب والاتفاق.</div>`,
+            `<div>Available payment methods:</div>
+             <div>• <strong>Cash</strong> or <strong>bank transfer</strong> in Jordan</div>
+             <div>• Other options depending on order value & agreement</div>`
+          );
+        }
+        if(/حد ادنى|حد أدنى|moq|min(imum)? order/.test(normalized)){
+          return reply(
+            `<div>لا يوجد حد أدنى للطلبات المحلية الصغيرة.</div>
+             <div>للشحن من الصين قد يُطبّق <strong>MOQ</strong> حسب المصنع/المنتج.</div>`,
+            `<div>No minimum for small local orders</div>
+             <div>For China shipments, <strong>MOQ</strong> may apply depending on manufacturer/product</div>`
+          );
+        }
+        if(/تركيب|صيانة|install|maintenance/.test(normalized)){
+          return reply(
+            `<div>نوفر <strong>تركيبًا وخدمات صيانة</strong> خفيفة حسب نوع المشروع.</div>
+             <div>ابعث نوع المنتج/الموقع لنحدّد التوفّر والتكلفة.</div>`,
+            `<div>We provide <strong>installation & light maintenance</strong> depending on project type</div>
+             <div>Share product/location to confirm availability & cost</div>`
+          );
+        }
+        if(/ضمان|كفالة|مرتجع|استرجاع|ارجاع|return|warranty/.test(normalized)){
+          return reply(
+            `<div>الضمان وسياسة الإرجاع <strong>تعتمدان على المُصنّع ونوع المنتج</strong>.</div>
+             <div>نوضح الشروط مع عرض السعر أو قبل الشراء.</div>`,
+            `<div>Warranty & returns <strong>depend on manufacturer/product</strong></div>
+             <div>We clarify terms with the quote or before purchase</div>`
+          );
+        }
+        if(/كتالوج|كاتالوج|قائمة العلامات|brands|catalog/.test(normalized)){
+          return reply(
+            `<div>اطّلع على قسم <a href="../index.html#brands">العلامات التجارية</a> بالموقع.</div>
+             <div>ولو بدك كتالوج مخصص ابعث المجالات المطلوبة ونجهّز لك ملفًا.</div>`,
+            `<div>Check our <a href="../index.html#brands">Brands</a> section</div>
+             <div>For a custom catalog, tell us the categories and we’ll prepare a file</div>`
+          );
+        }
+        if(/خصم|جملة|bulk|quantity discount/.test(normalized)){
+          return reply(
+            `<div>نقدّم <strong>حسومات للطلبات الكبيرة</strong>.</div>
+             <div>ابعث الكميات التقريبية لنحسب أفضل سعر.</div>`,
+            `<div>We offer <strong>bulk discounts</strong></div>
+             <div>Share approximate quantities for our best price</div>`
+          );
+        }
+        if(/مستودع|warehouse|استلام|pick ?up/.test(normalized)){
+          return reply(
+            `<div>لدينا مستودع لوجستي — راسلنا لترتيب <strong>موعد استلام</strong> أو شحن للعنوان.</div>`,
+            `<div>We have a logistics warehouse — contact us to arrange <strong>pickup</strong> or delivery</div>`
+          );
+        }
+
+        appendMsg(
+          activeLang==='ar'
+          ? `شكرًا لسؤالك! 😊 لو توضّح أكثر المطلوب (الكمية/النوع/المدينة) بخدمك أسرع.
+             <br><br>
+             للتواصل المباشر:
+             <br>استعلامات: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a>
+             <br>مبيعات: <a href="tel:+962797664441">+962 797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a>
+             <br>الإدارة: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a>
+             <br>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a>`
+          : `Thanks! 😊 Share more details (qty/type/city) and I’ll help faster
+             <br><br>
+             Direct contacts:
+             <br>Inquiries: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a>
+             <br>Sales: <a href="tel:+962797664441">+962797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a>
+             <br>Admin: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a>
+             <br>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a>`
+        ,'bot');
+      }
+
+      async function botReplyRemote(userText){
+        try{
+          const res=await fetch(GEMINI_ENDPOINT,{
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+              message:userText,
+              system:'You are Tholatheya assistant. Answer in the same language as the user. Be concise, helpful, and use the company details: HQ in Khalda Amman; WhatsApp/+962793383398 inquiries, +962797664441 sales, +962799104601 admin; hours Sat–Wed 8:30-17:00, Thu 8:30-15:30; China offices in Guangzhou and Yiwu.'
+            })
+          });
+          const data=await res.json();
+          const reply=(data && data.reply)?data.reply:(activeLang==='ar'?'لم يصلني رد من الخادم حالياً.':'No response from server right now');
+          appendMsg(reply,'bot');
+        }catch(e){
+          appendMsg(activeLang==='ar'?'تعذر الاتصال بالخادم. سأحاول مساعدتك محليًا ✨':'Can’t reach the server — I’ll help locally ✨','bot');
+          botReplyLocal(userText);
+        }
+      }
+
+      async function sendToBot(text){ if (USE_GEMINI) return botReplyRemote(text); return botReplyLocal(text); }
+      function setFabExpanded(v){ if(!fabBt) return; fabBt.setAttribute('aria-expanded', v ? 'true' : 'false'); }
+
+      function openPanel(){
+        setPanelOpen(true); input && input.focus();
+        let greeted=null; try{ greeted=localStorage.getItem(k(activeLang).GREET); }catch(e){}
+        if(greeted!=='1'){
+          setTimeout(()=> {
+            appendMsg(STR[activeLang].greet,'bot');
+            try{ localStorage.setItem(k(activeLang).GREET,'1'); }catch(e){}
+          }, 200);
+        }
+      }
+      function closePanel(){ setPanelOpen(false); }
+
+      fabBt && fabBt.addEventListener('click', ()=>{ const isOpen=panel.classList.contains('open'); if(isOpen) closePanel(); else openPanel(); });
+      closeBt && closeBt.addEventListener('click', closePanel);
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePanel(); });
+
+      function send(){
+        const val=(input.value||'').trim(); if(!val) return;
+        appendMsg(val,'me'); input.value=''; sendToBot(val);
+      }
+      sendBt && sendBt.addEventListener('click', send);
+      input && input.addEventListener('keydown', e=>{ if(e.key==='Enter') send(); });
+
+      function buildSuggests(lang){
+        if(!sug) return;
+        sug.innerHTML='';
+        (STR[lang].suggests||[]).forEach(s=>{
+          const chip=document.createElement('button');
+          chip.className='cb-chip'; chip.type='button'; chip.textContent=s;
+          chip.addEventListener('click', ()=>{ input.value=s; send(); });
+          sug.appendChild(chip);
+        });
+      }
+      function applyLangUI(lang){
+        const L=STR[lang];
+        if (fabTxt)   fabTxt.textContent   = L.fab;
+        if (titleEl)  titleEl.textContent  = L.title;
+        if (input)    input.placeholder    = L.placeholder;
+        if (mini)     mini.textContent     = L.mini;
+        buildSuggests(lang);
+      }
+
+      function initStateForLang(lang){
+        body.innerHTML='';
+        restoreTranscript(lang);
+        // دايمًا الشات بوت يفتح وهو مغلق أول ما ندخل الصفحة
+        setPanelOpen(false);
+        try{ localStorage.setItem(k(lang).OPEN,'0'); }catch(e){}
+      }
+
+      window.__CB_LANG_UPDATE__ = function(lang){
+        activeLang = lang || (document.documentElement.getAttribute('lang') || 'ar');
+        applyLangUI(activeLang);
+        initStateForLang(activeLang);
+      };
+
+      activeLang = document.documentElement.getAttribute('lang') || 'ar';
+      applyLangUI(activeLang);
+      initStateForLang(activeLang);
+    })();
+  </script>
+</body>
+</html>

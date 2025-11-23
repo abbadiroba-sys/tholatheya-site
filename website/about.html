@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>من نحن — الثلاثية المتخصصة | Specialized Triple</title>
+
+  <!-- Early language init (avoid flicker) -->
+  <script>
+    (function(){
+      var urlLang = new URLSearchParams(location.search).get('lang');
+      var saved   = null; try{ saved = localStorage.getItem('lang'); }catch(e){}
+      var lang    = urlLang || saved || 'ar';
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.setAttribute('dir', 'rtl'); // fixed direction
+    })();
+  </script>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --brand:#ff4d00; --brand-2:#ff6a00; --ink:#333; --bg:#f8f9fa; --primary:#004aad;
+      --radius:12px; --container:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;font-family:"Cairo",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink);
+      font-variant-numeric:tabular-nums;overflow-x:hidden;
+    }
+
+    /* ===== Top bar (same feel as Home) ===== */
+    .top-bar{
+      background:var(--brand-2);color:#fff;font-size:14px;padding:6px 15px;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap; position:relative;
+    }
+    .welcome-text{font-weight:600}
+    .social-lang{display:flex;align-items:center;gap:10px}
+    .social-lang a{color:#fff;font-size:16px;text-decoration:none;line-height:1}
+    .lang-switch{display:inline-flex;align-items:center;gap:0}
+    .lang-link{color:#fff;text-decoration:none;font-weight:800;font-size:12px;padding:1px 3px;cursor:pointer}
+    .lang-link.active{border-bottom:2px solid #fff}
+    .lang-sep{display:inline-block;width:1px;height:12px;background:rgba(255,255,255,.85);margin:0 8px}
+
+    /* WhatsApp action (icon-only, like Home final tweak) */
+    .wa-wrap{position:relative}
+    .wa-btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      background:#0dbb4e;color:#fff;border:none;border-radius:999px;
+      width:40px;height:40px;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.15);
+      padding:0; /* icon-only */
+    }
+    .wa-btn span{ display:none } /* hide "واتساب" label on all viewports */
+    .wa-panel{
+      position:absolute; inset-inline-end:0; inset-block-start:44px;
+      background:#10243a; color:#e6f0ff; border:1px solid #274766; border-radius:14px;
+      box-shadow:0 18px 40px rgba(0,0,0,.28); min-width:280px; display:none; z-index:20; overflow:hidden;
+    }
+    .wa-panel.open{display:block}
+    .wa-sec{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .wa-sec:last-child{border-bottom:0}
+    .wa-title{font-weight:900; font-size:13px; color:#b4d5ff; margin:0 0 6px}
+    .wa-row{display:flex; align-items:center; justify-content:space-between; gap:8px;
+      background:#0b1d33; border:1px solid #1f3b5a; border-radius:10px; padding:8px 10px}
+    .wa-row a{color:#8bd6ff; text-decoration:none; font-weight:800}
+    .wa-row .tel{direction:ltr; unicode-bidi:bidi-override; color:#e6f0ff}
+
+    /* ===== Header (sticky, matches Home) ===== */
+    header{background:#fff;border-bottom:3px solid var(--brand);position:sticky;top:0;z-index:10}
+    .header-inner{
+      max-width:var(--container);margin:0 auto;padding:10px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:clamp(10px,2vw,22px);
+    }
+    .brand-area{display:flex;align-items:center;gap:12px}
+    .logo{height:90px;width:auto;object-fit:contain;display:block}
+    @media (max-width:720px){ .logo{height:70px} }
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:clamp(10px,2.5vw,26px);align-items:center}
+    nav a{text-decoration:none;color:var(--ink);font-weight:700;padding:8px 10px;border-radius:8px}
+    nav a:hover{background:#f2f2f2}
+    nav a.active{background:#eef3ff;color:var(--primary)}
+
+    /* ===== Sections ===== */
+    section{padding:40px 20px;text-align:center;scroll-margin-top:110px;}
+    h2{color:var(--brand);margin:0 0 6px;font-size:28px}
+    p.lead{max-width:980px;margin:0 auto;line-height:1.95}
+    .container{max-width:var(--container);margin:0 auto}
+    .section-sub{font-size:12px;color:rgba(0,0,0,.40);margin-top:-2px;margin-bottom:18px;max-width:980px;margin-inline:auto;font-weight:500;}
+
+    /* ===== Hero (image) ===== */
+    .hero{padding:0;background:#000}
+    .hero-media{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;border-bottom:3px solid var(--brand);}
+    .hero-media img{width:100%;height:100%;display:block;object-fit:cover;filter:brightness(.78)}
+    .hero-overlay{position:relative}
+    .hero-overlay .hero-layer{
+      position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.55) 15%, rgba(0,0,0,.15) 60%, rgba(0,0,0,0));pointer-events:none;
+    }
+    .hero-caption{
+      position:absolute;inset-inline-start:0;inset-inline-end:0;bottom:6%;
+      margin:auto;max-width:var(--container);padding:0 20px;color:#fff;text-align:start;
+    }
+    .hero-caption h1{margin:0 0 8px;font-size:clamp(22px,4vw,40px);line-height:1.25}
+    .hero-tag{color: var(--brand); font-weight: 800; font-size: clamp(18px, 3.2vw, 34px); text-transform: uppercase; letter-spacing: .5px; margin: 0 0 6px;}
+    .hero-caption p{margin:0;font-weight:600;opacity:.95;max-width:820px}
+
+    /* ===== Info grid (How/Why/Vision) ===== */
+    .grid{display:grid;gap:16px;margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+    .card{
+      background:#fff;border:1px solid #eee;border-radius:14px;padding:18px 16px;
+      box-shadow:0 2px 10px rgba(0,0,0,.04);text-align:start;
+    }
+    .card h3{margin:0 0 10px;color:var(--primary);font-size:18px;display:flex;align-items:center;gap:8px}
+    .card p{margin:0;color:#444;line-height:1.9;font-size:14px}
+    .list{margin:8px 0 0;padding:0 18px}
+    .list li+li{margin-top:6px}
+
+    /* ===== Target Markets ===== */
+    .tm-wrap{max-width:var(--container);margin:0 auto}
+    .tm-intro{max-width:980px;margin:0 auto}
+    .tm-list{margin:18px 0 0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px;}
+    .tm-item{background:#fff; border:1px solid #eee; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.04); padding:12px 14px; display:flex; align-items:flex-start; gap:10px; text-align:start;}
+    .tm-item i{color:var(--brand); flex:0 0 auto; margin-top:3px}
+    .tm-item span{color:#333; line-height:1.8; font-size:14px; font-weight:700}
+
+    /* ===== Team ===== */
+    .team{max-width:980px;margin:0 auto; display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;margin-top:18px}
+    .member{background:#fff;border:1px solid #e6e8ee;border-radius:12px;padding:16px; box-shadow:0 3px 10px rgba(0,0,0,.06);text-align:center}
+    .member img{width:120px;height:120px;border-radius:12px;object-fit:cover;background:#f3f5f8;border:1px dashed #d9dee7;display:block;margin:6px auto 10px}
+    .member .name{font-weight:800;color:var(--primary);margin:2px 0 2px}
+
+    /* ===== Company Profile ===== */
+    #company-profile .cp-grid{
+      max-width: 1100px; margin: 16px auto 0;
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap:16px;
+    }
+    #company-profile .cp-card{
+      background:#fff; border:1px solid #e6e8ee; border-radius:12px;
+      box-shadow:0 3px 10px rgba(0,0,0,0.06); text-align:start; padding:14px 14px 16px;
+    }
+    #company-profile .cp-head{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    #company-profile .cp-head i{ color: var(--brand); }
+    #company-profile .cp-title{ font-weight:900; color:var(--primary); font-size:16px; }
+    #company-profile .cp-actions{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px; }
+    #company-profile .btn{
+      border-radius:999px; padding:8px 12px; font-weight:800; cursor:pointer;
+      text-decoration:none; display:inline-flex; align-items:center; gap:8px; border:1px solid transparent;
+    }
+    #company-profile .btn.primary{ background:var(--primary); color:#fff; }
+    #company-profile .btn.ghost{ background:#fff; color:#0f172a; border-color:#e6ebf2; }
+    #company-profile .btn.link{ background:transparent; color:var(--brand-2); border:none; padding:6px 8px; }
+    #company-profile .btn:hover{ opacity:.95; }
+    #company-profile .cp-preview{ margin-top:10px; border:1px solid #edf1f6; border-radius:10px; overflow:hidden; background:#f8fafc; }
+    #company-profile .cp-preview iframe{ width:100%; height: min(70vh, 520px); border:0; display:block; }
+
+    /* ===== Footer ===== */
+    footer{background: var(--primary); color:#fff; padding:16px 20px; text-align:center; border-top:3px solid var(--brand);}
+    footer a{color:#fff;text-decoration:none;font-weight:700}
+    footer a:hover{opacity:.9}
+
+    /* ===== Mobile tuning ===== */
+    @media (max-width: 640px){
+      .top-bar{ display:grid; grid-template-columns:1fr auto; gap:6px; padding:6px 10px; font-size:13px; }
+      .welcome-text{ grid-column:1 / -1; white-space:normal; display:block; line-height:1.6; }
+      .social-lang{
+        display:flex !important; align-items:center !important; justify-content:flex-start !important;
+        gap:8px !important; flex-wrap:nowrap !important;
+      }
+      .lang-switch{ margin-inline-start:auto !important; }
+
+      .header-inner{ gap:8px; padding:8px 12px; flex-wrap:nowrap; }
+      header nav{ flex:1; min-width:0; }
+      header nav ul{
+        display:flex !important; flex-wrap: wrap !important; overflow: visible !important; white-space: normal !important;
+        gap:6px !important; padding-block:2px !important; margin:0 !important;
+      }
+      header nav a{ padding:5px 7px !important; font-size:12px !important; border-radius:8px !important; line-height:1.2 !important; }
+      .logo{ height:56px; }
+
+      .card{ padding:14px 12px; }
+      .card h3{ font-size:16px; }
+      .card p, .tm-item span{ font-size:13px; line-height:1.7; }
+      .tm-list{ gap:10px; grid-template-columns:repeat(2,1fr); }
+    }
+    @media (min-width: 641px) and (max-width: 900px){
+      .tm-list{ grid-template-columns:repeat(3,1fr); }
+    }
+
+    /* ========= ChatBot (same design as Home) ========= */
+    :root{ --cb-brand: var(--brand, #ff4d00); --cb-primary: var(--primary, #004aad); --cb-ink: var(--ink, #333); }
+    .cb-fab{ position: fixed; inset-inline-end: 18px; bottom: 18px; z-index: 9999; }
+    .cb-fab button{
+      background: var(--cb-brand); color:#fff; border:none; border-radius:999px;
+      padding:12px 16px; font-weight:900; display:flex; gap:10px; align-items:center;
+      box-shadow:0 12px 28px rgba(0,0,0,.22); cursor:pointer;
+    }
+    .cb-panel{
+      position: fixed; inset-inline-end: 18px; bottom: 78px; width: min(380px, 92vw);
+      background:#fff; border:1px solid #e6ebf2; border-radius:16px; overflow:hidden;
+      box-shadow:0 18px 40px rgba(0,0,0,.18); display:none; z-index: 9999; direction: rtl;
+      height: min(520px, 75vh);
+    }
+    .cb-panel.open{ display: grid; grid-template-rows: auto 1fr auto auto; }
+    .cb-head{ background: linear-gradient(90deg, rgba(0,74,173,.10), rgba(0,74,173,.06));
+      border-bottom:1px solid #dfe7f5; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .cb-head .title{font-weight:900; color:#0f172a; display:flex; align-items:center; gap:8px}
+    .cb-head .title i{color: var(--cb-primary)}
+    .cb-head .right-actions{ display:flex; align-items:center; gap:8px }
+    .cb-head .ghost{ background:#fff; color:#0f172a; border:1px solid #e6ebf2; border-radius:999px; padding:6px 10px; font-weight:800; cursor:pointer; font-size:12px; }
+
+    .cb-body{ background:#f8fafc; overflow:auto; padding:12px; display:flex; flex-direction:column; gap:10px }
+    .cb-msg{ display:flex; gap:8px; align-items:flex-end }
+    .cb-msg.me{ justify-content:flex-start; }
+    .cb-msg.bot{ justify-content:flex-end; }
+    .cb-bubble{ padding:10px 12px; border-radius:14px; max-width:80%; line-height:1.8; font-size:14px; box-shadow:0 2px 6px rgba(0,0,0,.07); }
+    .cb-msg.me  .cb-bubble{ background:#fff; border:1px solid #e6ebf2; color:#0f172a }
+    .cb-msg.bot .cb-bubble{ background: var(--cb-brand); color:#fff; border:1px solid rgba(0,0,0,.06) }
+
+    /* شريط الاقتراحات الأزرق الواضح */
+    .cb-suggests-wrap{
+      border-top:1px solid #edf1f6;
+      background:#e6f0ff;
+      padding:8px 0;
+      display:grid;
+      grid-template-rows:auto;
+    }
+    .cb-suggests{
+      display:flex; gap:8px; align-items:center;
+      overflow-x:auto; overflow-y:hidden; white-space:nowrap; padding:0 10px 6px;
+      scroll-snap-type:x proximity;
+      direction: rtl;
+    }
+    .cb-suggests::-webkit-scrollbar{ height:8px }
+    .cb-suggests::-webkit-scrollbar-thumb{ background:#e6ebf2; border-radius:999px }
+
+    .cb-chip{
+      border:1px solid var(--cb-brand);
+      background:rgba(255,77,0,.08);
+      color:#0f172a;
+      padding:7px 12px; border-radius:999px; font-weight:800; cursor:pointer; font-size:12px;
+      flex:0 0 auto; display:inline-block; scroll-snap-align:center;
+    }
+
+    .cb-mini-note{ font-size:11px; color:#64748b; padding:0 12px 10px; background:#fff; border-top:1px solid #edf1f6 }
+    .cb-foot{ display:flex; gap:8px; padding:10px; border-top:1px solid #edf1f6; background:#fff }
+    .cb-input{ flex:1; border:1px solid #dfe7f5; border-radius:999px; padding:10px 12px; font:14px "Cairo", Tahoma; background:#fff }
+    .cb-send{ background: var(--cb-primary); color:#fff; border:none; border-radius:999px; padding:10px 14px; font-weight:900; cursor:pointer }
+  </style>
+</head>
+<body>
+  <!-- ===== Top bar ===== -->
+  <div class="top-bar">
+    <div class="welcome-text"
+      data-ar="مرحباً بكم في <strong>الثلاثية المتخصصة لتجهيز المنشآت والمحلات</strong> – نبسّط أعمالكم بخدمات متكاملة"
+      data-en="Welcome to <strong>Specialized Triple for Facility Preparation</strong> — we simplify your operations with integrated services">
+      مرحباً بكم في <strong>الثلاثية المتخصصة لتجهيز المنشآت والمحلات</strong> – نبسّط أعمالكم بخدمات متكاملة
+    </div>
+
+    <div class="social-lang">
+      <!-- icons: IG / FB / WA (icon-only) / LinkedIn -->
+      <a href="https://www.instagram.com/tholatheya?igsh=bnp0Nzh4a2tiY29i" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+
+      <!-- WhatsApp button with inline panel -->
+      <div class="wa-wrap">
+        <button class="wa-btn" id="waBtn" aria-haspopup="true" aria-expanded="false" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i><span data-ar="واتساب" data-en="WhatsApp">واتساب</span>
+        </button>
+        <div class="wa-panel" id="waPanel" role="menu" aria-label="WhatsApp numbers">
+          <div class="wa-sec">
+            <div class="wa-title" data-ar="استعلامات" data-en="Inquiries">استعلامات</div>
+            <div class="wa-row">
+              <a href="https://wa.me/962793383398" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+              <a class="tel" href="tel:+962793383398">+962 793383398</a>
+            </div>
+          </div>
+          <div class="wa-sec">
+            <div class="wa-title" data-ar="مبيعات" data-en="Sales">مبيعات</div>
+            <div class="wa-row">
+              <a href="https://wa.me/962797664441" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+              <a class="tel" href="tel:+962797664441">+962 797664441</a>
+            </div>
+          </div>
+          <div class="wa-sec">
+            <div class="wa-title" data-ar="الإدارة" data-en="Administration">الإدارة</div>
+            <div class="wa-row">
+              <a href="https://wa.me/962799104601" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+              <a class="tel" href="tel:+962799104601">+962 799104601</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/company/109431975/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+
+      <!-- Language switch -->
+      <div class="lang-switch" aria-label="Language switcher">
+        <a href="#" class="lang-link" id="link-en">EN</a>
+        <span class="lang-sep" aria-hidden="true"></span>
+        <a href="#" class="lang-link" id="link-ar">AR</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-area">
+        <img class="logo" src="logo.png" alt="شعار شركة الثلاثية المتخصصة لتجهيز المنشآت والمحلات - Specialized Triple">
+      </div>
+
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" data-ar="الصفحة الرئيسية" data-en="Home">الصفحة الرئيسية</a></li>
+          <li><a class="active" href="about.html" data-ar="من نحن" data-en="About">من نحن</a></li>
+          <li><a href="index.html#categories" data-ar="الفئات" data-en="Categories">الفئات</a></li>
+          <li><a href="index.html#brands" data-ar="العلامات" data-en="Brands">العلامات</a></li>
+          <li><a href="index.html#locations" data-ar="المواقع" data-en="Locations">المواقع</a></li>
+          <li><a href="blog/index.html" target="_blank" rel="noopener" data-ar="المدونة" data-en="Blog">المدونة</a></li>
+          <li><a href="index.html#contact" data-ar="تواصل" data-en="Contact">تواصل</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" aria-label="About banner">
+    <div class="hero-media hero-overlay">
+      <img src="about-hero.png" alt="صورة توضيحية لمستودع وعامل سلامة يستخدم جهازًا لوحيًا تمثّل خدمات شركة الثلاثية المتخصصة" loading="eager" fetchpriority="high">
+      <div class="hero-layer"></div>
+      <div class="hero-caption">
+        <h1 data-ar="عن الثلاثية المتخصصة" data-en="About Specialized Triple">عن الثلاثية المتخصصة</h1>
+        <div class="hero-tag" data-ar="SIMPLIFYING YOUR BUSINESS" data-en="SIMPLIFYING YOUR BUSINESS">SIMPLIFYING YOUR BUSINESS</div>
+        <p data-ar="نقدّم حلول مشتريات ولوجستيات وتنفيذ خفيفة تُبسّط أعمالكم وتقلّل التكلفة وتسّرع التسليم"
+           data-en="We deliver procurement, logistics and light execution to simplify operations, cut costs and speed up delivery">
+          نقدّم حلول مشتريات ولوجستيات وتنفيذ خفيفة تُبسّط أعمالكم وتقلّل التكلفة وتسّرع التسليم
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Who We Are ===== -->
+  <section id="about-brief">
+    <h2 data-ar="من نحن" data-en="Who We Are">من نحن</h2>
+    <p class="lead"
+       data-ar="نعمل كشريك موثوق لتجهيز المنشآت وتوريد المواد والمعدات عبر شبكة واسعة من الموردين، مع مطابقة مواصفات موثّقة وخطة تسليم واضحة"
+       data-en="We are a trusted partner for facility fit-out and material supply through a wide supplier network, with documented spec compliance and clear delivery plans">
+       نعمل كشريك موثوق لتجهيز المنشآت وتوريد المواد والمعدات عبر شبكة واسعة من الموردين، مع مطابقة مواصفات موثّقة وخطة تسليم واضحة
+    </p>
+  </section>
+
+  <!-- ===== How / Why / Vision ===== -->
+  <section id="what-why">
+    <div class="container">
+      <div class="grid">
+        <article class="card">
+          <h3><i class="fa-solid fa-diagram-project"></i><span data-ar="كيف نعمل" data-en="How We Work">كيف نعمل</span></h3>
+          <ul class="list">
+            <li data-ar="إدارة مشتريات متكاملة وتجميع الطلبات وتوحيد الموردين" data-en="Integrated procurement: consolidate orders & unify suppliers">إدارة مشتريات متكاملة وتجميع الطلبات وتوحيد الموردين</li>
+            <li data-ar="مطابقة مواصفات بعينات عند الحاجة وتوثيق كامل" data-en="Spec compliance with samples (when needed) & full documentation">مطابقة مواصفات بعينات عند الحاجة وتوثيق كامل</li>
+            <li data-ar="تنسيق لوجستي وتخليص وتسليم للموقع" data-en="Logistics coordination, clearance and site delivery">تنسيق لوجستي وتخليص وتسليم للموقع</li>
+            <li data-ar="خيارات دفع مرحلي وتعاقد مرن" data-en="Milestone payments & flexible contracting">خيارات دفع مرحلي وتعاقد مرن</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3><i class="fa-solid fa-circle-check"></i><span data-ar="لماذا نختلف" data-en="Why We're Different">لماذا نختلف</span></h3>
+          <ul class="list">
+            <li data-ar="شبكة موردين واسعة وأسعار تنافسية" data-en="Wide supplier network & competitive pricing">شبكة موردين واسعة وأسعار تنافسية</li>
+            <li data-ar="وضوح في الجداول الزمنية وإشعارات تقدم" data-en="Clear timelines & progress notifications">وضوح في الجداول الزمنية وإشعارات تقدم</li>
+            <li data-ar="حوكمة وجودة: فواتير ضريبية وقبول نهائي حسب BOQ" data-en="Governance & quality: tax invoices & BOQ-based acceptance">حوكمة وجودة: فواتير ضريبية وقبول نهائي حسب BOQ</li>
+            <li data-ar="دعم متابعة بعد التسليم عند الحاجة" data-en="After-handover follow-up when needed">دعم متابعة بعد التسليم عند الحاجة</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3><i class="fa-solid fa-bullseye"></i><span data-ar="رؤيتنا ورسالتنا" data-en="Our Vision & Mission">رؤيتنا ورسالتنا</span></h3>
+          <p data-ar="رؤيتنا: أن نكون المزوّد الرائد للحلول المتكاملة. رسالتنا: تيسير الشراء داخل وخارج الأردن وتقديم بدائل ذكية تقلّل التكلفة وتسّرع التنفيذ"
+             data-en="Vision: be the leading provider of integrated solutions. Mission: facilitate purchasing inside & outside Jordan with smart, cost-saving options and faster execution">
+            رؤيتنا: أن نكون المزوّد الرائد للحلول المتكاملة. رسالتنا: تيسير الشراء داخل وخارج الأردن وتقديم بدائل ذكية تقلّل التكلفة وتسّرع التنفيذ.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Target Markets ===== -->
+  <section id="target-markets">
+    <h2 data-ar="الأسواق المستهدفة" data-en="Target Markets">الأسواق المستهدفة</h2>
+    <div class="tm-wrap">
+      <p class="lead tm-intro"
+         data-ar="نخدم طيفًا واسعًا من القطاعات التي تحتاج إلى توريد موثوق، دعم سلسلة التوريد، وخدمات تجهيز المنشآت"
+         data-en="We serve a broad range of sectors that need reliable sourcing, supply chain support, and facility preparation services">
+         نخدم طيفًا واسعًا من القطاعات التي تحتاج إلى توريد موثوق، دعم سلسلة التوريد، وخدمات تجهيز المنشآت.
+      </p>
+
+      <ul class="tm-list">
+        <li class="tm-item"><i class="fa-solid fa-handshake-angle"></i><span data-ar="المنظمات الدولية والمحلية غير الربحية (NGOs)" data-en="International and local NGOs">المنظمات الدولية والمحلية غير الربحية (NGOs)</span></li>
+        <li class="tm-item"><i class="fa-solid fa-globe"></i><span data-ar="وكالات الأمم المتحدة والمنظمات الإنسانية" data-en="UN agencies and humanitarian organizations">وكالات الأمم المتحدة والمنظمات الإنسانية</span></li>
+        <li class="tm-item"><i class="fa-solid fa-landmark"></i><span data-ar="الوزارات والمؤسسات الحكومية" data-en="Government institutions and ministries">الوزارات والمؤسسات الحكومية</span></li>
+        <li class="tm-item"><i class="fa-solid fa-tower-crane"></i><span data-ar="شركات الإنشاءات والبنية التحتية" data-en="Construction and infrastructure companies">شركات الإنشاءات والبنية التحتية</span></li>
+        <li class="tm-item"><i class="fa-solid fa-industry"></i><span data-ar="المنشآت الصناعية والتصنيعية" data-en="Industrial and manufacturing facilities">المنشآت الصناعية والتصنيعية</span></li>
+        <li class="tm-item"><i class="fa-solid fa-kit-medical"></i><span data-ar="المستشفيات والعيادات والمراكز الصحية" data-en="Hospitals, clinics, and health centers">المستشفيات والعيادات والمراكز الصحية</span></li>
+        <li class="tm-item"><i class="fa-solid fa-school"></i><span data-ar="المؤسسات التعليمية والجامعات" data-en="Educational institutions and universities">المؤسسات التعليمية والجامعات</span></li>
+        <li class="tm-item"><i class="fa-solid fa-hotel"></i><span data-ar="الفنادق وقطاع الضيافة" data-en="Hotels and hospitality establishments">الفنادق وقطاع الضيافة</span></li>
+        <li class="tm-item"><i class="fa-solid fa-store"></i><span data-ar="سلاسل التجزئة والمنشآت التجارية" data-en="Retail chains and commercial outlets">سلاسل التجزئة والمنشآت التجارية</span></li>
+        <li class="tm-item"><i class="fa-solid fa-campground"></i><span data-ar="المخيمات والوحدات المتنقلة (الطوارئ، العسكرية، أو مشاريع التنمية)" data-en="Camps and mobile units (emergency, military, or development projects)">المخيمات والوحدات المتنقلة (الطوارئ، العسكرية، أو مشاريع التنمية)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Management Team ===== -->
+  <section id="team">
+    <h2 data-ar="الإدارة" data-en="Management Team">الإدارة</h2>
+    <div class="team">
+      <article class="member">
+        <img src="صالح.png" alt="صورة صالح جابر قرقش - من فريق الإدارة في شركة الثلاثية المتخصصة" loading="lazy">
+        <div class="name">صالح جابر قرقش</div>
+      </article>
+      <article class="member">
+        <img src="امين.png" alt="صورة امين معتصم عوامله - من فريق الإدارة في شركة الثلاثية المتخصصة" loading="lazy">
+        <div class="name">امين معتصم عوامله</div>
+      </article>
+      <article class="member">
+        <img src="م.احمد.png" alt="صورة احمد زياد منصور - من فريق الإدارة في شركة الثلاثية المتخصصة" loading="lazy">
+        <div class="name">احمد زياد منصور</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Company Profile ===== -->
+  <section id="company-profile">
+    <h2 data-ar="بروفايل الشركة" data-en="Company Profile">بروفايل الشركة</h2>
+    <p class="section-sub"
+       data-ar="حمّل أو استعرض بروفايل الشركة بصيغة PDF"
+       data-en="Download or preview the company profile (PDF)">
+       حمّل أو استعرض بروفايل الشركة بصيغة PDF
+    </p>
+
+    <div class="cp-grid">
+      <!-- Arabic Profile -->
+      <article class="cp-card">
+        <div class="cp-head">
+          <i class="fa-solid fa-file-pdf"></i>
+          <div class="cp-title" data-ar="النسخة العربية" data-en="Arabic Version">النسخة العربية</div>
+        </div>
+        <div class="cp-actions">
+          <a class="btn primary" href="الملف التعريفي للشركة (5).pdf" target="_blank" rel="noopener"
+             data-ar="عرض" data-en="View">عرض</a>
+          <a class="btn ghost" href="الملف التعريفي للشركة (5).pdf" download
+             data-ar="تحميل" data-en="Download">تحميل</a>
+          <button class="btn link cp-toggle" data-target="#cpPrevAR"
+                  data-ar="معاينة داخل الصفحة" data-en="Preview inline">معاينة داخل الصفحة</button>
+        </div>
+        <div class="cp-preview" id="cpPrevAR" hidden>
+          <iframe title="Company Profile (AR) PDF Preview"
+                  src="الملف التعريفي للشركة (5).pdf#toolbar=0&navpanes=0&zoom=page-width" loading="lazy"></iframe>
+        </div>
+      </article>
+
+      <!-- English Profile -->
+      <article class="cp-card">
+        <div class="cp-head">
+          <i class="fa-solid fa-file-pdf"></i>
+          <div class="cp-title" data-ar="النسخة الإنجليزية" data-en="English Version">النسخة الإنجليزية</div>
+        </div>
+        <div class="cp-actions">
+          <a class="btn primary" href="Company Profile Presentation.pdf" target="_blank" rel="noopener"
+             data-ar="عرض" data-en="View">عرض</a>
+          <a class="btn ghost" href="Company Profile Presentation.pdf" download
+             data-ar="تحميل" data-en="Download">تحميل</a>
+          <button class="btn link cp-toggle" data-target="#cpPrevEN"
+                  data-ar="معاينة داخل الصفحة" data-en="Preview inline">معاينة داخل الصفحة</button>
+        </div>
+        <div class="cp-preview" id="cpPrevEN" hidden>
+          <iframe title="Company Profile (EN) PDF Preview"
+                  src="Company Profile Presentation.pdf#toolbar=0&navpanes=0&zoom=page-width" loading="lazy"></iframe>
+        </div>
+      </article>
+    </div>
+
+    <p class="section-sub" style="margin-top:10px"
+       data-ar=""
+       data-en="">
+       
+    </p>
+  </section>
+
+  <footer>
+    <p data-ar="© 2025 الثلاثية | Specialized Triple" data-en="© 2025 Specialized Triple">© 2025 الثلاثية | Specialized Triple</p>
+    <div class="social-icons" style="margin-top:8px; display:flex; gap:12px; justify-content:center;">
+      <a href="#" aria-label="Facebook" style="color:#fff"><i class="fab fa-facebook fa-lg"></i></a>
+      <a href="https://www.instagram.com/tholatheya?igsh=bnp0Nzh4a2tiY29i" target="_blank" rel="noopener" aria-label="Instagram" style="color:#fff"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="https://www.linkedin.com/company/109431975/" target="_blank" rel="noopener" aria-label="LinkedIn" style="color:#fff"><i class="fab fa-linkedin fa-lg"></i></a>
+    </div>
+  </footer>
+
+  <!-- ===== Core JS: language + links + small helpers ===== -->
+  <script>
+    let activeLang='ar';
+
+    function applyPlaceholders(lang){
+      document.querySelectorAll('[data-ar-ph]').forEach(el=>{
+        const ph = lang==='ar'?el.getAttribute('data-ar-ph'):el.getAttribute('data-en-ph');
+        if(ph!=null) el.setAttribute('placeholder',ph);
+      });
+    }
+
+    function setLang(lang){
+      activeLang=lang;
+      document.documentElement.setAttribute('lang',lang);
+      document.documentElement.setAttribute('dir','rtl');
+
+      document.querySelectorAll('[data-ar]').forEach(el=>{
+        const v = lang==='ar'?el.getAttribute('data-ar'):el.getAttribute('data-en');
+        if(v!=null) el.innerHTML=v;
+      });
+
+      try{ localStorage.setItem('lang', lang); }catch(e){}
+
+      const linkAr=document.getElementById('link-ar');
+      const linkEn=document.getElementById('link-en');
+      if(linkAr&&linkEn){linkAr.classList.toggle('active',lang==='ar');linkEn.classList.toggle('active',lang==='en');}
+
+      applyPlaceholders(lang);
+
+      document.querySelectorAll('a[href]').forEach(a=>{
+        const href = a.getAttribute('href');
+        if(!href) return;
+        if(href.startsWith('#') || /^(https?:|mailto:|tel:|javascript:)/i.test(href)) return;
+        const url = new URL(href, location.href);
+        url.searchParams.set('lang', activeLang);
+        a.setAttribute('href', url.pathname + url.search + url.hash);
+      });
+
+      if (window.__CB_LANG_UPDATE__) window.__CB_LANG_UPDATE__(lang);
+    }
+
+    function initSmoothAnchors(){
+      const header = document.querySelector('header');
+      const offset = (header?.offsetHeight || 0) + 10;
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        const href = a.getAttribute('href');
+        if(!href || href === '#') return;
+        const target = document.querySelector(href);
+        if(!target) return;
+        a.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const top = Math.max(0, target.getBoundingClientRect().top + window.pageYOffset - offset);
+          window.scrollTo({ top, behavior:'smooth' });
+        });
+      });
+    }
+
+    function initWhatsAppPanel(){
+      const btn = document.getElementById('waBtn');
+      const panel = document.getElementById('waPanel');
+      if(!btn || !panel) return;
+
+      btn.addEventListener('click', ()=>{
+        const open = panel.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', (e)=>{
+        const inside = e.target.closest('#waPanel') || e.target.closest('#waBtn');
+        if(!inside) panel.classList.remove('open');
+      });
+    }
+
+    // Toggle inline PDF previews
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest('.cp-toggle');
+      if(!btn) return;
+      const targetSel = btn.getAttribute('data-target');
+      if(!targetSel) return;
+      const box = document.querySelector(targetSel);
+      if(!box) return;
+      const isHidden = box.hasAttribute('hidden');
+      if(isHidden) box.removeAttribute('hidden'); else box.setAttribute('hidden','');
+    });
+
+    document.addEventListener('DOMContentLoaded',()=>{
+      const linkAr=document.getElementById('link-ar');
+      const linkEn=document.getElementById('link-en');
+      if(linkAr) linkAr.addEventListener('click',e=>{e.preventDefault();setLang('ar');});
+      if(linkEn) linkEn.addEventListener('click',e=>{e.preventDefault();setLang('en');});
+
+      const urlLang = new URLSearchParams(location.search).get('lang');
+      let saved   = null; try{ saved = localStorage.getItem('lang'); }catch(e){}
+      const initial = urlLang || saved || (document.documentElement.getAttribute('lang')==='en'?'en':'ar');
+      setLang(initial);
+
+      initSmoothAnchors();
+      initWhatsAppPanel();
+    });
+  </script>
+
+  <!-- ===== ChatBot Widget (aligned with Home) ===== -->
+  <div class="cb-fab">
+    <button id="cbFab" aria-controls="cbPanel" aria-expanded="false">
+      <i class="fa-solid fa-robot"></i><span id="cbFabTxt">اسأل الثلاثية</span>
+    </button>
+  </div>
+
+  <div class="cb-panel" id="cbPanel" aria-live="polite">
+    <div class="cb-head">
+      <div class="title"><i class="fa-solid fa-robot"></i><span id="cbTitle">مساعد الثلاثية</span></div>
+      <div class="right-actions">
+        <!-- زر إغلاق فقط (بدون زر إخفاء الاقتراحات) -->
+        <button id="cbClose" type="button" title="إغلاق" class="ghost">إغلاق</button>
+      </div>
+    </div>
+    <div class="cb-body" id="cbBody"></div>
+    <div class="cb-suggests-wrap" id="cbSugWrap">
+      <div class="cb-suggests" id="cbSuggests"></div>
+    </div>
+    <div class="cb-mini-note" id="cbMiniNote">اسأل عن المنتجات، المواقع، الدوام، أو الشحن من الصين ✨</div>
+    <div class="cb-foot">
+      <input id="cbInput" class="cb-input" type="text" placeholder="اكتب سؤالك..." />
+      <button id="cbSend" class="cb-send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <!-- ===== ChatBot logic ===== -->
+  <script>
+    (function(){
+      if (window.__CB_INITED__) return;
+      window.__CB_INITED__ = true;
+
+      const USE_GEMINI = false;
+      const GEMINI_ENDPOINT = '/chat';
+
+      const $ = sel => document.querySelector(sel);
+      const body   = $('#cbBody');
+      const panel  = $('#cbPanel');
+      const input  = $('#cbInput');
+      const sendBt = $('#cbSend');
+      const fabBt  = $('#cbFab');
+      const fabTxt = $('#cbFabTxt');
+      const closeBt= $('#cbClose');
+
+      const sugWrap= $('#cbSugWrap');
+      const sug    = $('#cbSuggests');
+      const titleEl= $('#cbTitle');
+      const mini   = $('#cbMiniNote');
+
+      const STR = {
+        ar: {
+          fab: 'اسأل الثلاثية',
+          title: 'مساعد الثلاثية',
+          close: 'إغلاق',
+          placeholder: 'اكتب سؤالك...',
+          mini: 'اسأل عن المنتجات، المواقع، الدوام، أو الشحن من الصين ✨',
+          greet: 'أهلًا! أنا مساعد الثلاثية. كيف أقدر أساعدك؟ 🤖',
+          suggests: [
+            'شو خدماتكم الرئيسية؟',
+            'وين موقع المكتب الرئيسي؟',
+            'متى ساعات الدوام؟',
+            'هل بتجهزوا كرفانات؟',
+            'بدي عرض سعر لمواد كهربائية',
+            'عندكم شحن من الصين؟',
+            'هل توصّلون لكل المحافظات؟',
+            'ما طرق الدفع المتاحة؟',
+            'هل في حد أدنى للطلب؟',
+            'هل في ضمان على المنتجات؟',
+            'ممكن كتالوج أو قائمة العلامات؟',
+            'كيف أرسل طلب شراء أو مواصفات؟'
+          ]
+        },
+        en: {
+          fab: 'Ask Tholatheya',
+          title: 'Tholatheya Assistant',
+          close: 'Close',
+          placeholder: 'Type your question…',
+          mini: 'Ask about products, locations, hours, or shipping from China ✨',
+          greet: 'Hi! I’m the Tholatheya assistant. How can I help? 🤖',
+          suggests: [
+            'What are your main services?',
+            'Where is the head office?',
+            'What are your working hours?',
+            'Do you build caravans?',
+            'I need a quote for electrical items',
+            'Do you ship from China?',
+            'Do you deliver across Jordan?',
+            'What payment methods do you accept?',
+            'Is there a minimum order?',
+            'Is there product warranty?',
+            'Can I get a brands catalog?',
+            'How do I send an RFQ/specs?'
+          ]
+        }
+      };
+
+      const k = (lang) => ({
+        TRANSCRIPT: 'cbTranscriptHTML_'+lang,
+        OPEN:       'cbIsOpen',
+        GREET:      'cbGreetedOnce_'+lang
+      });
+
+      function saveTranscript(lang){
+        try{ localStorage.setItem(k(lang).TRANSCRIPT, body.innerHTML); }catch(e){}
+      }
+      function restoreTranscript(lang){
+        let html = null; try{ html = localStorage.getItem(k(lang).TRANSCRIPT); }catch(e){}
+        if(html && html.trim()){
+          body.innerHTML = html;
+          body.scrollTop = body.scrollHeight;
+          return true;
+        }
+        return false;
+      }
+      function setPanelOpen(v){
+        panel.classList.toggle('open', !!v);
+        try{ localStorage.setItem(k(activeLang).OPEN, v ? '1' : '0'); }catch(e){}
+        setFabExpanded(!!v);
+      }
+
+      function appendMsg(html, who='me'){
+        const row = document.createElement('div');
+        row.className = 'cb-msg ' + (who==='bot' ? 'bot' : 'me');
+        const b = document.createElement('div');
+        b.className = 'cb-bubble';
+        b.innerHTML = html;
+        row.appendChild(b);
+        body.appendChild(row);
+        body.scrollTop = body.scrollHeight;
+        saveTranscript(activeLang);
+      }
+
+      function botReplyLocal(userText){
+        const t = (userText||'').trim();
+        const normalized = t.replace(/[^\u0621-\u064Aa-z0-9 ]/gi,'').toLowerCase();
+        const reply = (ar,en)=> appendMsg(activeLang==='ar'?ar:en,'bot');
+
+        if(/مرحبا|مرحبه|اهلا|أهلا|اهلاً|السلام عليكم|هاي|هلا|hi|hello|hey|good morning|good evening/.test(normalized)){
+          return reply(
+            'أهلاً وسهلاً 🤍 كيفك اليوم؟',
+            'Hello! 😊 How are you today?'
+          );
+        }
+        if(/الحمد لله|الحمدلله|بخير|تمام|كويس|منيح/.test(normalized) && /(وانت|وانت كيفك|انت كيفك)/.test(normalized)){
+          return reply(
+            'تمام الحمد لله 😄 يسعدني إنك بخير. كيف أقدر أساعدك اليوم؟',
+            'I’m good, thanks! 😄 Glad you’re fine. How can I help you today?'
+          );
+        }
+        if(/الحمد لله|الحمدلله|بخير|تمام|كويس|منيح/.test(normalized)){
+          return reply(
+            'يسعدني إنك بخير 😄 كيف أقدر أساعدك اليوم؟',
+            'Glad to hear you’re fine 😄 How can I help you today?'
+          );
+        }
+
+        if(/من انتم|عن الشركة|شو بتعملو|what do you do|services|خدماتكم|رؤيتكم/.test(normalized)){
+          return reply(
+            `<div><strong>الثلاثية المتخصصة</strong> شركة أردنية لتجهيز المنشآت والمحلات</div>
+             <div>نوفّر مشتريات، لوجستيات، وتجهيزات خفيفة مع تسليم أسرع وتكلفة أقل</div>
+             <div>قطاعاتنا: حكومي/منظمات، صناعي/تجاري، تعليمي/طبي، ضيافة ومخيمات</div>`,
+            `<div><strong>Tholatheya</strong> is a Jordanian company for facility & shop preparation</div>
+             <div>We provide procurement, logistics, and light fit-out with faster delivery and lower cost</div>
+             <div>Sectors: Government/NGOs, Industrial/Commercial, Education/Medical, Hospitality & Camps</div>`
+          );
+        }
+        if(/موقع|وين|الخريطة|hq|office|address|وينكم/.test(normalized)){
+          return reply(
+            `<div><strong>المكتب الرئيسي (خلدا):</strong></div>
+             <div>مكتب #209، الطابق الثاني، مبنى 224، مجمع القدس سنتر، شارع وصفي التل، عمّان</div>
+             <div><a target="_blank" href="https://maps.app.goo.gl/yCC2EGXhGbDrMu9v6">افتح على الخريطة</a></div>`,
+            `<div><strong>Head Office (Khalda):</strong></div>
+             <div>Office #209, 2nd Floor, Building 224, Al Quds Complex, Wasfi Al-Tal St, Amman</div>
+             <div><a target="_blank" href="https://maps.app.goo.gl/yCC2EGXhGbDrMu9v6">Open in Maps</a></div>`
+          );
+        }
+        if(/دوام|ساعات|متى|فتح|اغلاق|opening|hours|مفتوح/.test(normalized)){
+          return reply(
+            `<div><strong>الدوام:</strong></div>
+             <div>السبت – الأربعاء: 8:30 ص – 5:00 م</div>
+             <div>الخميس: 8:30 ص – 3:30 م</div>
+             <div>الجمعة: مغلق</div>`,
+            `<div><strong>Working hours:</strong></div>
+             <div>Sat–Wed: 8:30 AM – 5:00 PM</div>
+             <div>Thu: 8:30 AM – 3:30 PM</div>
+             <div>Fri: Closed</div>`
+          );
+        }
+        if(/رقم|هاتف|تواصل|اتصال|واتس|whatsapp|sales|استعلام/.test(normalized)){
+          return reply(
+            `<div><strong>أرقام التواصل:</strong></div>
+             <div>استعلامات: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a></div>
+             <div>مبيعات: <a href="tel:+962797664441">+962 797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a></div>
+             <div>الإدارة: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a></div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>`,
+            `<div><strong>Contacts:</strong></div>
+             <div>Inquiries: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a></div>
+             <div>Sales: <a href="tel:+962797664441">+962 797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a></div>
+             <div>Administration: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a></div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>`
+          );
+        }
+        if(/عرض سعر|quotation|offer|ارسل عرض|طلب شراء|rfq|specs|مواصفات/.test(normalized)){
+          return reply(
+            `<div>أرسل المواصفات أو قائمة المواد إلى:</div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>
+             <div>أو تواصل مع <a target="_blank" href="https://wa.me/962797664441">واتساب المبيعات</a> لنرد سريعًا</div>`,
+            `<div>Please email your specs or bill of materials to:</div>
+             <div>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a></div>
+             <div>Or contact <a target="_blank" href="https://wa.me/962797664441">Sales on WhatsApp</a> for a quick reply</div>`
+          );
+        }
+        if(/كرفان|كرفانات|caravan|fabrication|fitout/.test(normalized)){
+          return reply(
+            `<div>نعم، نقدّم <strong>تصنيع وتجهيز الكرفانات</strong> حسب الطلب (عزل، كهرباء، سباكة، تشطيب)</div>
+             <div>ابعث المواصفات وسنجهّز لك عرضًا مناسبًا</div>`,
+            `<div>Yes, we offer <strong>caravan fabrication & fit-out</strong> (insulation, electrical, plumbing, finishing)</div>
+             <div>Send your specs and we’ll prepare a tailored quote</div>`
+          );
+        }
+        if(/الصين|غوانزو|يي وو|yiwu|guangzhou|توريد|sourcing|شحن/.test(normalized)){
+          return reply(
+            `<div>لدينا مكاتب فعّالة في الصين:</div>
+             <div>📍 غوانزو (Guangzhou) & 📍 ييوو (Yiwu)</div>
+             <div>نوفّر توريدًا مباشرًا وفحص جودة وشحنًا ميسّرًا للأردن</div>`,
+            `<div>We have active offices in China:</div>
+             <div>📍 Guangzhou & 📍 Yiwu</div>
+             <div>We provide direct sourcing, QC, and streamlined shipping to Jordan</div>`
+          );
+        }
+        if(/مواد|ادوات|سباكة|كهرباء|سلامة|انارة|دهان|مكتبية|it|زراعة|قياس|بناء/.test(normalized)){
+          return reply(
+            `<div>نوفّر توريد مواد متنوّعة: كهربائيات وإنارة، سباكة، دهانات، أدوات قياس، IT، سلامة، تنظيف، زراعة، مواد بناء…</div>
+             <div>ابعث قائمة بالاحتياج لنوفّر البدائل والأسعار</div>`,
+            `<div>We supply a wide range: electrical & lighting, plumbing, paints, measuring tools, IT, safety/PPE, cleaning, agriculture, building materials…</div>
+             <div>Send your list and we’ll propose options & pricing</div>`
+          );
+        }
+        if(/طرق الدفع|الدفع|payment|visa|master|تحويل|كاش/.test(normalized)){
+          return reply(
+            `<div>طرق الدفع المتاحة:</div>
+             <div>• <strong>نقدًا</strong> أو <strong>تحويل بنكي</strong> داخل الأردن</div>
+             <div>• خيارات أخرى بحسب قيمة الطلب والاتفاق</div>`,
+            `<div>Available payment methods:</div>
+             <div>• <strong>Cash</strong> or <strong>bank transfer</strong> in Jordan</div>
+             <div>• Other options depending on order value & agreement</div>`
+          );
+        }
+        if(/حد ادنى|حد أدنى|moq|min(imum)? order/.test(normalized)){
+          return reply(
+            `<div>لا يوجد حد أدنى للطلبات المحلية الصغيرة</div>
+             <div>للشحن من الصين قد يُطبّق <strong>MOQ</strong> حسب المصنع/المنتج</div>`,
+            `<div>No minimum for small local orders</div>
+             <div>For China shipments, <strong>MOQ</strong> may apply depending on manufacturer/product</div>`
+          );
+        }
+        if(/تركيب|صيانة|install|maintenance/.test(normalized)){
+          return reply(
+            `<div>نوفر <strong>تركيبًا وخدمات صيانة</strong> خفيفة حسب نوع المشروع</div>
+             <div>ابعث نوع المنتج/الموقع لنحدّد التوفّر والتكلفة</div>`,
+            `<div>We provide <strong>installation & light maintenance</strong> depending on project type</div>
+             <div>Share product/location to confirm availability & cost</div>`
+          );
+        }
+        if(/ضمان|كفالة|مرتجع|استرجاع|ارجاع|return|warranty/.test(normalized)){
+          return reply(
+            `<div>الضمان وسياسة الإرجاع <strong>تعتمدان على المُصنّع ونوع المنتج</strong></div>
+             <div>نوضح الشروط مع عرض السعر أو قبل الشراء</div>`,
+            `<div>Warranty & returns <strong>depend on manufacturer/product</strong></div>
+             <div>We clarify terms with the quote or before purchase</div>`
+          );
+        }
+        if(/كتالوج|كاتالوج|قائمة العلامات|brands|catalog/.test(normalized)){
+          return reply(
+            `<div>اطّلع على قسم <a href="index.html#brands">العلامات التجارية</a> بالموقع</div>
+             <div>ولو بدك كتالوج مخصص ابعث المجالات المطلوبة ونجهّز لك ملفًا</div>`,
+            `<div>Check our <a href="index.html#brands">Brands</a> section</div>
+             <div>For a custom catalog, tell us the categories and we’ll prepare a file</div>`
+          );
+        }
+        if(/خصم|جملة|bulk|quantity discount/.test(normalized)){
+          return reply(
+            `<div>نقدّم <strong>حسومات للطلبات الكبيرة</strong></div>
+             <div>ابعث الكميات التقريبية لنحسب أفضل سعر</div>`,
+            `<div>We offer <strong>bulk discounts</strong></div>
+             <div>Share approximate quantities for our best price</div>`
+          );
+        }
+        if(/مستودع|warehouse|استلام|pick ?up/.test(normalized)){
+          return reply(
+            `<div>لدينا مستودع لوجستي — راسلنا لترتيب <strong>موعد استلام</strong> أو شحن للعنوان</div>`,
+            `<div>We have a logistics warehouse — contact us to arrange <strong>pickup</strong> or delivery</div>`
+          );
+        }
+
+        appendMsg(
+          activeLang==='ar'
+          ? `شكرًا لسؤالك! 😊 لو توضّح أكثر المطلوب (الكمية/النوع/المدينة) بخدمك أسرع
+             <br><br>
+             للتواصل المباشر:
+             <br>استعلامات: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a>
+             <br>مبيعات: <a href="tel:+962797664441">+962 797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a>
+             <br>الإدارة: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a>
+             <br>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a>`
+          : `Thanks! 😊 Share more details (qty/type/city) and I’ll help faster
+             <br><br>
+             Direct contacts:
+             <br>Inquiries: <a href="tel:+962793383398">+962 793383398</a> • <a target="_blank" href="https://wa.me/962793383398">WhatsApp</a>
+             <br>Sales: <a href="tel:+962797664441">+962 797664441</a> • <a target="_blank" href="https://wa.me/962797664441">WhatsApp</a>
+             <br>Admin: <a href="tel:+962799104601">+962 799104601</a> • <a target="_blank" href="https://wa.me/962799104601">WhatsApp</a>
+             <br>📧 <a href="mailto:info@tholatheya.com">info@tholatheya.com</a>`
+        ,'bot');
+      }
+
+      async function botReplyRemote(userText){
+        try{
+          const res = await fetch(GEMINI_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              message: userText,
+              system: 'You are Tholatheya assistant. Answer in the same language as the user. Be concise, helpful, and use the company details: HQ in Khalda Amman; WhatsApp/+962793383398 inquiries, +962797664441 sales, +962799104601 admin; hours Sat–Wed 8:30-17:00, Thu 8:30-15:30; China offices in Guangzhou and Yiwu'
+            })
+          });
+          const data = await res.json();
+          const reply = (data && data.reply) ? data.reply : (activeLang==='ar'?'لم يصلني رد من الخادم حالياً':'No response from server right now');
+          appendMsg(reply, 'bot');
+        }catch(e){
+          appendMsg(activeLang==='ar'?'تعذر الاتصال بالخادم. سأحاول مساعدتك محليًا ✨':'Can’t reach the server. I’ll help locally ✨', 'bot');
+          botReplyLocal(userText);
+        }
+      }
+
+      async function sendToBot(text){
+        if (USE_GEMINI) return botReplyRemote(text);
+        return botReplyLocal(text);
+      }
+
+      function setFabExpanded(v){
+        if(!fabBt) return;
+        fabBt.setAttribute('aria-expanded', v ? 'true' : 'false');
+      }
+
+      function openPanel(){
+        setPanelOpen(true);
+        input && input.focus();
+        let greeted=null; try{ greeted = localStorage.getItem(k(activeLang).GREET); }catch(e){}
+        if(greeted!=='1'){
+          setTimeout(()=> {
+            appendMsg(STR[activeLang].greet,'bot');
+            try{ localStorage.setItem(k(activeLang).GREET,'1'); }catch(e){}
+          }, 200);
+        }
+      }
+      function closePanel(){ setPanelOpen(false); }
+
+      fabBt && fabBt.addEventListener('click', ()=>{
+        const isOpen = panel.classList.contains('open');
+        if (isOpen) closePanel(); else openPanel();
+      });
+      closeBt && closeBt.addEventListener('click', closePanel);
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePanel(); });
+
+      function send(){
+        const val = (input.value||'').trim();
+        if(!val) return;
+        appendMsg(val,'me');
+        input.value='';
+        sendToBot(val);
+      }
+      sendBt && sendBt.addEventListener('click', send);
+      input && input.addEventListener('keydown', e=>{ if(e.key==='Enter') send(); });
+
+      function buildSuggests(lang){
+        if(!sug) return;
+        sug.innerHTML = '';
+        STR[lang].suggests.forEach(s=>{
+          const chip = document.createElement('button');
+          chip.className='cb-chip';
+          chip.type='button';
+          chip.textContent=s;
+          chip.addEventListener('click', ()=>{ input.value=s; send(); });
+          sug.appendChild(chip);
+        });
+      }
+      function applyLangUI(lang){
+        const L = STR[lang];
+        if (fabTxt)  fabTxt.textContent   = L.fab;
+        if (titleEl) titleEl.textContent  = L.title;
+        if (closeBt) closeBt.textContent  = L.close;
+        if (input)   input.placeholder    = L.placeholder;
+        if (mini)    mini.textContent     = L.mini;
+        buildSuggests(lang);
+      }
+
+      function initStateForLang(lang){
+        body.innerHTML='';
+        restoreTranscript(lang);
+        // دايمًا يفتح مغلق أول ما ندخل الصفحة (زي الصفحة الرئيسية)
+        setPanelOpen(false);
+        try{ localStorage.setItem(k(lang).OPEN,'0'); }catch(e){}
+      }
+
+      window.__CB_LANG_UPDATE__ = function(lang){
+        activeLang = lang || (document.documentElement.getAttribute('lang') || 'ar');
+        applyLangUI(activeLang);
+        initStateForLang(activeLang);
+      };
+
+      activeLang = document.documentElement.getAttribute('lang') || 'ar';
+      applyLangUI(activeLang);
+      initStateForLang(activeLang);
+    })();
+  </script>
+</body>
+</html>
